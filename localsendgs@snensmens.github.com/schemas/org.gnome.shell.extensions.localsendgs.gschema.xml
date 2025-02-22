@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.localsendgs" path="/org/gnome/shell/extensions/localsendgs/">
+    <key name="alias" type="s">
+      <default>"LocalSend GS"</default>
+    </key>
+
+    <key name="storage-path" type="s">
+      <default>""</default>
+    </key>
+
+    <key name="show-icon" type="b">
+      <default>false</default>
+    </key>
+
+    <key name="quick-save-policy" type="i">
+      <default>0</default>
+    </key>
+
+    <key name="pin-policy" type="i">
+      <default>0</default>
+    </key>
+
+    <key name="pin" type="s">
+      <default>""</default>
+    </key>
+
+    <key name="accept-policy" type="i">
+      <default>0</default>
+    </key>
+
+    <key name="mc-address" type="s">
+      <default>"224.0.0.167"</default>
+    </key>
+
+    <key name="mc-port" type="s">
+      <default>"53317"</default>
+    </key>
+
+    <key name="fileserver-port" type="s">
+      <default>"53317"</default>
+    </key>
+
+    <key name="favorites" type="a{ss}">
+      <default>{}</default>
+    </key>
+
+    <key name="discovered-devices" type="a{ss}">
+      <default>{}</default>
+    </key>
+  </schema>
+</schemalist>

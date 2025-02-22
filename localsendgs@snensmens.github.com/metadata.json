@@ -1,0 +1,10 @@
+{
+  "name": "LocalSendGS",
+  "description": "Receive files via the LocalSend-Protocol",
+  "uuid": "localsendgs@snensmens.github.com",
+  "url": "https://github.com/snensmens/gnome-shell-extension-localsendgs",
+  "shell-version": [
+    "47"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.localsendgs"
+}
