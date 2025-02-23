@@ -86,6 +86,7 @@ export default class LocalSendGSExtension extends Extension {
     this.progressNotification = null;
 
     this.settings = this.getSettings('org.gnome.shell.extensions.localsendgs');
+    this.settings.set_boolean('extension-active', false);
     this.settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
 
     this.notificationService = new NotificationService({
@@ -112,11 +113,11 @@ export default class LocalSendGSExtension extends Extension {
     }
 
     this.toggle = new LocalSendGSQuickToggle(this);
-
     this.indicator = new LocalSendGSIndicator(this);
     this.indicator.quickSettingsItems.push(this.toggle);
-
     Main.panel.statusArea.quickSettings.addExternalIndicator(this.indicator);
+
+    this.settings.bind('extension-active', this.toggle, 'checked', Gio.SettingsBindFlags.DEFAULT);
 
     this.showIconHandlerId = this.settings.connect('changed::show-icon', (settings, _key) => {
       this.indicator.showIcon(this.toggle.checked && this.settings.get_boolean('show-icon'));

@@ -21,9 +21,20 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         });
         window.add(generalPage);
 
+        const disclaimer = new Adw.PreferencesGroup({
+          title: _('Not all settings are available while the extension is active'),
+          description: _('Turn it off in the Quick Settings to access all settings'),
+          cssClasses: ['warning'],
+        })
+        generalPage.add(disclaimer);
+        this.settings.bind('extension-active', disclaimer, 'visible',
+          Gio.SettingsBindFlags.DEFAULT);
+
         // General Settings
         const generalGroup = new Adw.PreferencesGroup({ title: _('General') });
         generalPage.add(generalGroup);
+        this.settings.bind('extension-active', generalGroup, 'sensitive',
+          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         const aliasRow = new Adw.EntryRow({ title: _('Alias') });
         generalGroup.add(aliasRow);
@@ -60,6 +71,8 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         // Receiving related Settings
         const receiveGroup = new Adw.PreferencesGroup({ title: _('Receiving') });
         generalPage.add(receiveGroup);
+        this.settings.bind('extension-active', receiveGroup, 'sensitive',
+          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         const quickSavePolicyRow = new Adw.ComboRow({
             title: _('QuickSave'),
@@ -76,6 +89,8 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         // Security related Settings
         const securityGroup = new Adw.PreferencesGroup({ title: _('Security') });
         generalPage.add(securityGroup);
+        this.settings.bind('extension-active', securityGroup, 'sensitive',
+          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         const pinPolicyRow = new Adw.ComboRow({
             title: _('Require PIN to receive files'),
@@ -105,6 +120,8 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
             description: _('Onyl change this values if you know what you are doing'),
         });
         generalPage.add(advancedMulitcastGroup);
+        this.settings.bind('extension-active', advancedMulitcastGroup, 'sensitive',
+          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         const multicastAddressRow = new Adw.EntryRow({ title: _('Multicast group') });
         advancedMulitcastGroup.add(multicastAddressRow);
@@ -114,6 +131,8 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
 
         const advancedServerGroup = new Adw.PreferencesGroup();
         generalPage.add(advancedServerGroup);
+        this.settings.bind('extension-active', advancedServerGroup, 'sensitive',
+          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         const serverPortRow = new Adw.EntryRow({ title: _('Fileserver-port') });
         advancedServerGroup.add(serverPortRow);
@@ -144,7 +163,6 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
             visible: false,
         });
         discoveredDevicesGroup.add(this.availableDevicesList);
-
 
         this.settings.bind('alias', aliasRow, 'text', Gio.SettingsBindFlags.DEFAULT);
         this.settings.bind('storage-path', saveLocationRow, 'subtitle', Gio.SettingsBindFlags.DEFAULT);

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 16:22+0100\n"
+"POT-Creation-Date: 2025-02-23 22:41+0100\n"
 "PO-Revision-Date: 2025-02-23 15:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
@@ -79,111 +79,119 @@ msgstr "Übertragung abgebrochen"
 msgid "The sender has canceled the transfer"
 msgstr "Der Sender hat die Übertragung abgebrochen"
 
-#: prefs.js:19 prefs.js:25
+#: prefs.js:19 prefs.js:34
 msgid "General"
 msgstr "Allgemein"
 
-#: prefs.js:28
+#: prefs.js:25
+msgid "Not all settings are available while the extension is active"
+msgstr "Nicht alle Einstellungen sind verfügbar während die Erweiterung aktiv ist"
+
+#: prefs.js:26
+msgid "Turn it off in the Quick Settings to access all settings"
+msgstr "Deaktiviere die Erweiterung um auf alle Einstellungen zuzugreifen"
+
+#: prefs.js:39
 msgid "Alias"
 msgstr "Alias"
 
-#: prefs.js:32
+#: prefs.js:43
 msgid "Save folder"
 msgstr "Speicherort"
 
-#: prefs.js:53
+#: prefs.js:64
 msgid "Extension"
 msgstr "Erweiterung"
 
-#: prefs.js:56
+#: prefs.js:67
 msgid "Show icon in topbar when enabled"
 msgstr "Icon in Kopfleiste anzeigen wenn aktiv"
 
-#: prefs.js:61
+#: prefs.js:72
 msgid "Receiving"
 msgstr "Empfangen"
 
-#: prefs.js:65
+#: prefs.js:78
 msgid "QuickSave"
 msgstr "QuickSave"
 
-#: prefs.js:66
+#: prefs.js:79
 msgid "Accept incoming files without asking"
 msgstr "Dateifreigaben annehmen ohne zu fragen"
 
-#: prefs.js:68 prefs.js:83
+#: prefs.js:81 prefs.js:98
 msgid "never"
 msgstr "niemals"
 
-#: prefs.js:69
+#: prefs.js:82
 msgid "favorits only"
 msgstr "nur Favoriten"
 
-#: prefs.js:70 prefs.js:85
+#: prefs.js:83 prefs.js:100
 msgid "always"
 msgstr "immer"
 
-#: prefs.js:77
+#: prefs.js:90
 msgid "Security"
 msgstr "Sicherheit"
 
-#: prefs.js:81
+#: prefs.js:96
 msgid "Require PIN to receive files"
 msgstr "PIN verlangen um Dateien anzunehmen"
 
-#: prefs.js:84
+#: prefs.js:99
 msgid "if not a favourite"
 msgstr "wenn kein Favorit"
 
-#: prefs.js:90
+#: prefs.js:105
 msgid "PIN"
 msgstr "PIN"
 
-#: prefs.js:94
+#: prefs.js:109
 msgid "Allow sending files for"
 msgstr "Dateifreigabe erlauben für"
 
-#: prefs.js:96
+#: prefs.js:111
 msgid "everyone"
 msgstr "Jeden"
 
-#: prefs.js:97
+#: prefs.js:112
 msgid "favorites"
 msgstr "Favoriten"
 
-#: prefs.js:104
+#: prefs.js:119
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: prefs.js:105
+#: prefs.js:120
 msgid "Onyl change this values if you know what you are doing"
-msgstr "Verändern Sie diese Werte nur wenn Sie wissen was Sie tun"
+msgstr "Verändere diese Werte nur wenn du weißt was du tust"
 
-#: prefs.js:109
+#: prefs.js:126
 msgid "Multicast group"
 msgstr "Multicast Gruppe"
 
-#: prefs.js:112
+#: prefs.js:129
 msgid "Multicast port"
 msgstr "Multicast Port"
 
-#: prefs.js:118
+#: prefs.js:137
 msgid "Fileserver-port"
 msgstr "Dateiserver Port"
 
-#: prefs.js:123 prefs.js:128
+#: prefs.js:142 prefs.js:147
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: prefs.js:138
+#: prefs.js:157
 msgid "Discovered devices"
 msgstr "Entdeckte Geräte"
 
-#: prefs.js:184
+#: prefs.js:202
 msgid "Remove from favorites"
 msgstr "Von Favoriten entfernen"
 
-#: prefs.js:211
+#: prefs.js:229
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
 
