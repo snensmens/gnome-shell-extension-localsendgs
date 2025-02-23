@@ -1,0 +1,189 @@
+# LocalSendGS.
+# Copyright (C) snensmens
+# This file is distributed under the same license as LocalSendGS.
+# snensmens, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-23 16:22+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: extension.js:71
+msgid "Settings"
+msgstr ""
+
+#: extension.js:135
+msgid "Favorites only"
+msgstr ""
+
+#: notifications.js:17
+msgid "New file share request"
+msgstr ""
+
+#: notifications.js:19
+#, javascript-format
+msgid "%s wants to send %d file"
+msgid_plural "%s wants to send %d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notifications.js:32
+msgid "Reject"
+msgstr ""
+
+#: notifications.js:36
+msgid "Accept"
+msgstr ""
+
+#: notifications.js:51
+msgid "Success"
+msgstr ""
+
+#: notifications.js:53
+#, javascript-format
+msgid "Saved %d file"
+msgid_plural "Saved %d files"
+msgstr[0] ""
+msgstr[1] ""
+
+#: notifications.js:64
+msgid "Show in Files"
+msgstr ""
+
+#: notifications.js:73
+msgid "Transferring"
+msgstr ""
+
+#: notifications.js:74
+msgid "Files are being transferred"
+msgstr ""
+
+#: notifications.js:78
+msgid "Cancel"
+msgstr ""
+
+#: notifications.js:87
+msgid "Transfer canceled"
+msgstr ""
+
+#: notifications.js:88
+msgid "The sender has canceled the transfer"
+msgstr ""
+
+#: prefs.js:19 prefs.js:25
+msgid "General"
+msgstr ""
+
+#: prefs.js:28
+msgid "Alias"
+msgstr ""
+
+#: prefs.js:32
+msgid "Save folder"
+msgstr ""
+
+#: prefs.js:53
+msgid "Extension"
+msgstr ""
+
+#: prefs.js:56
+msgid "Show icon in topbar when enabled"
+msgstr ""
+
+#: prefs.js:61
+msgid "Receiving"
+msgstr ""
+
+#: prefs.js:65
+msgid "QuickSave"
+msgstr ""
+
+#: prefs.js:66
+msgid "Accept incoming files without asking"
+msgstr ""
+
+#: prefs.js:68 prefs.js:83
+msgid "never"
+msgstr ""
+
+#: prefs.js:69
+msgid "favorits only"
+msgstr ""
+
+#: prefs.js:70 prefs.js:85
+msgid "always"
+msgstr ""
+
+#: prefs.js:77
+msgid "Security"
+msgstr ""
+
+#: prefs.js:81
+msgid "Require PIN to receive files"
+msgstr ""
+
+#: prefs.js:84
+msgid "if not a favourite"
+msgstr ""
+
+#: prefs.js:90
+msgid "PIN"
+msgstr ""
+
+#: prefs.js:94
+msgid "Allow sending files for"
+msgstr ""
+
+#: prefs.js:96
+msgid "everyone"
+msgstr ""
+
+#: prefs.js:97
+msgid "favorites"
+msgstr ""
+
+#: prefs.js:104
+msgid "Advanced"
+msgstr ""
+
+#: prefs.js:105
+msgid "Onyl change this values if you know what you are doing"
+msgstr ""
+
+#: prefs.js:109
+msgid "Multicast group"
+msgstr ""
+
+#: prefs.js:112
+msgid "Multicast port"
+msgstr ""
+
+#: prefs.js:118
+msgid "Fileserver-port"
+msgstr ""
+
+#: prefs.js:123 prefs.js:128
+msgid "Favorites"
+msgstr ""
+
+#: prefs.js:138
+msgid "Discovered devices"
+msgstr ""
+
+#: prefs.js:184
+msgid "Remove from favorites"
+msgstr ""
+
+#: prefs.js:211
+msgid "Add to favorites"
+msgstr ""

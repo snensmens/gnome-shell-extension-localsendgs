@@ -63,12 +63,12 @@ class LocalSendGSQuickToggle extends QuickMenuToggle {
 
     this.menu.setHeader(
       this.gicon,
-      _('LocalSendGS'),
+      'LocalSendGS',
     );
 
     this.menu.addMenuItem(new PopupMenu.PopupMenuSection());
     const settingsItem = this.menu.addAction(
-      'Settings',
+      _('Settings'),
       () => extension.openPreferences(),
     );
   }
@@ -132,7 +132,7 @@ export default class LocalSendGSExtension extends Extension {
         this.toggle.checked ? await this.setup() : this.shutdown();
 
         if (isChecked && this.settingsService.getAcceptPolicy() === AcceptPolicy.FAVORITES_ONLY) {
-          this.toggle.subtitle = 'Favorites only';
+          this.toggle.subtitle = _('Favorites only');
         }
       }
       catch(error) {

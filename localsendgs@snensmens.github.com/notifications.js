@@ -14,12 +14,12 @@ export default class NotificationService {
 
   askForPermission({alias, fileCount, onAccept, onDismiss}) {
     const notification = this._createNotification({
-      title: 'New fileshare request',
+      title: _('New file share request'),
       body: ngettext(
-        `${alias} wants to send ${fileCount} file`,
-        `${alias} wants to send ${fileCount} files`,
+        '%s wants to send %d file',
+        '%s wants to send %d files',
         fileCount
-      ),
+      ).format(alias, fileCount),
       iconName: 'emblem-shared-symbolic',
     });
 
@@ -50,10 +50,10 @@ export default class NotificationService {
     const notification = this._createNotification({
       title: _(`Success`),
       body: ngettext(
-        `Saved ${fileCount} file`,
-        `Saved ${fileCount} files`,
+        'Saved %d file',
+        'Saved %d files',
         fileCount
-      ),
+      ).format(fileCount),
       iconName: 'folder-download-symbolic',
     });
 

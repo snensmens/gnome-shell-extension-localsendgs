@@ -4,7 +4,7 @@ import GObject from 'gi://GObject';
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 
-import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import SettingsService from './settings.js';
 
 
@@ -16,20 +16,20 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         })
 
         const generalPage = new Adw.PreferencesPage({
-            title: 'General',
+            title: _('General'),
             iconName: 'org.gnome.Settings-symbolic',
         });
         window.add(generalPage);
 
         // General Settings
-        const generalGroup = new Adw.PreferencesGroup({ title: 'General' });
+        const generalGroup = new Adw.PreferencesGroup({ title: _('General') });
         generalPage.add(generalGroup);
 
-        const aliasRow = new Adw.EntryRow({ title: 'Alias' });
+        const aliasRow = new Adw.EntryRow({ title: _('Alias') });
         generalGroup.add(aliasRow);
 
         const saveLocationRow = new Adw.ActionRow({
-            title: 'Save folder',
+            title: _('Save folder'),
             css_classes: ['property'],
         });
         generalGroup.add(saveLocationRow);
@@ -50,82 +50,82 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
 
 
         // Extension related Settings
-        const extensionGroup = new Adw.PreferencesGroup({ title: 'Extension' });
+        const extensionGroup = new Adw.PreferencesGroup({ title: _('Extension') });
         generalPage.add(extensionGroup);
 
-        const showIconRow = new Adw.SwitchRow({ title: 'Show icon in topbar when enabled' });
+        const showIconRow = new Adw.SwitchRow({ title: _('Show icon in topbar when enabled') });
         extensionGroup.add(showIconRow);
 
 
         // Receiving related Settings
-        const receiveGroup = new Adw.PreferencesGroup({ title: 'Receiving' });
+        const receiveGroup = new Adw.PreferencesGroup({ title: _('Receiving') });
         generalPage.add(receiveGroup);
 
         const quickSavePolicyRow = new Adw.ComboRow({
-            title: 'QuickSave',
-            subtitle: 'Accept incoming files without asking',
+            title: _('QuickSave'),
+            subtitle: _('Accept incoming files without asking'),
             model: Gtk.StringList.new([
-              'never',
-              'favorits only',
-              'always'
+              _('never'),
+              _('favorits only'),
+              _('always')
             ]),
         });
         receiveGroup.add(quickSavePolicyRow);
 
 
         // Security related Settings
-        const securityGroup = new Adw.PreferencesGroup({ title: 'Security' });
+        const securityGroup = new Adw.PreferencesGroup({ title: _('Security') });
         generalPage.add(securityGroup);
 
         const pinPolicyRow = new Adw.ComboRow({
-            title: 'Require PIN to receive files',
+            title: _('Require PIN to receive files'),
             model: Gtk.StringList.new([
-              'never',
-              'if not a favourite',
-              'always'
+              _('never'),
+              _('if not a favourite'),
+              _('always')
             ]),
         });
         securityGroup.add(pinPolicyRow);
 
-        const pinRow = new Adw.EntryRow({ title: 'PIN' });
+        const pinRow = new Adw.EntryRow({ title: _('PIN') });
         securityGroup.add(pinRow);
 
         const acceptPolicyRow = new Adw.ComboRow({
-            title: 'Allow sending files for',
+            title: _('Allow sending files for'),
             model: Gtk.StringList.new([
-              'everyone',
-              'favorites'
+              _('everyone'),
+              _('favorites')
             ]),
         });
         securityGroup.add(acceptPolicyRow);
 
         // Advanced Settings
         const advancedMulitcastGroup = new Adw.PreferencesGroup({
-            title: 'Advanced',
-            description: 'Onyl change this values if you know what you are doing',
+            title: _('Advanced'),
+            description: _('Onyl change this values if you know what you are doing'),
         });
         generalPage.add(advancedMulitcastGroup);
 
-        const multicastAddressRow = new Adw.EntryRow({ title: 'Multicast group' });
+        const multicastAddressRow = new Adw.EntryRow({ title: _('Multicast group') });
         advancedMulitcastGroup.add(multicastAddressRow);
 
-        const multicastPortRow = new Adw.EntryRow({ title: 'Multicast port' });
+        const multicastPortRow = new Adw.EntryRow({ title: _('Multicast port') });
         advancedMulitcastGroup.add(multicastPortRow);
 
         const advancedServerGroup = new Adw.PreferencesGroup();
         generalPage.add(advancedServerGroup);
 
-        const serverPortRow = new Adw.EntryRow({ title: 'Fileserver-port' });
+        const serverPortRow = new Adw.EntryRow({ title: _('Fileserver-port') });
         advancedServerGroup.add(serverPortRow);
 
 
         const favoritesPage = new Adw.PreferencesPage({
-            title: 'Favorites',
+            title: _('Favorites'),
             iconName: 'emblem-favorite-symbolic'
         });
         window.add(favoritesPage);
 
-        const favoritesGroup = new Adw.PreferencesGroup({ title: 'Favorites' });
+        const favoritesGroup = new Adw.PreferencesGroup({ title: _('Favorites') });
         favoritesPage.add(favoritesGroup);
 
         const favoritesList = new Gtk.ListBox({
@@ -135,7 +135,7 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         });
         favoritesGroup.add(favoritesList);
 
-        let discoveredDevicesGroup = new Adw.PreferencesGroup({ title: 'Discovered devices' });
+        let discoveredDevicesGroup = new Adw.PreferencesGroup({ title: _('Discovered devices') });
         favoritesPage.add(discoveredDevicesGroup);
 
         this.availableDevicesList = new Gtk.ListBox({
@@ -181,7 +181,7 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
 
           const removeButton = new Gtk.Button({
               iconName: 'user-trash-symbolic',
-              tooltipText: 'Remove from favorites',
+              tooltipText: _('Remove from favorites'),
               valign: Gtk.Align.CENTER,
               cssClasses: ['circular', 'error', 'flat']
           });
@@ -208,7 +208,7 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
             if (!this.settingsService.isFavorite(fingerprint)) {
               const favoritesButton = new Gtk.Button({
                   iconName: 'emblem-favorite-symbolic',
-                  tooltipText: 'Add to favorites',
+                  tooltipText: _('Add to favorites'),
                   valign: Gtk.Align.CENTER,
                   cssClasses: ['circular', 'accent', 'flat']
               })
