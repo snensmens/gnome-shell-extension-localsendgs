@@ -13,12 +13,12 @@ LocalSend is a free, Open Source, Cross-Plattform alternative to AirDrop availab
 
 ## Features
 ### Easy acces
-Enable and disable files haring over the quick menu
+Enable and disable file sharing over the quick menu
 
 ![](resources/quick-settings.png)
 
 ### Top bar indicator
-See if filesharing is active
+See if file sharing is active
 
 ![](resources/top-bar-icon.png)
 
@@ -28,7 +28,7 @@ Mark devices you trust as favorite
 ![](resources/favorites.png)
 
 ### QuickSave
-Automatically accept fileshare requests
+Automatically accept file sharing requests
 
 ![](resources/quicksave.png)
 
