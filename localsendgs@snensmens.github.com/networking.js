@@ -85,7 +85,7 @@ export class LocalSendClient {
   registerDeviceAt({address, port, protocol, device, onSuccess, onError}) {
     const registerEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/register`;
     print(`register self at ${registerEndpoint} with ${JSON.stringify(device)}`);
-    
+
     this._sendPostRequest({
       endpoint: registerEndpoint,
       requestBody: JSON.stringify(device),
@@ -123,7 +123,7 @@ export class LocalSendClient {
       else {
         onSuccess(this._session.send_and_read_finish(response));
       }
-      
+
       message.disconnect(certificateHandler);
     });
   }
@@ -164,7 +164,7 @@ class FileServer extends Soup.Server {
     this._uploadSession = null;
 
     this.add_handler("/api/localsend/v2/prepare-upload", (server, msg, _path, query) => {
-      this._prepareUpload({message: msg});
+      this._prepareUpload({message: msg, query: query});
     });
 
     this.add_handler("/api/localsend/v2/upload", (_server, msg, _path, query) => {
@@ -208,7 +208,7 @@ class FileServer extends Soup.Server {
     return this._uploadSession !== null;
   }
 
-  _prepareUpload({message}) {
+  _prepareUpload({message, query}) {
     // refuse to prepare a new upload when a session is alread present
     if (this._uploadSession !== null) {
       message.set_status(Soup.Status.CONFLICT, null);
