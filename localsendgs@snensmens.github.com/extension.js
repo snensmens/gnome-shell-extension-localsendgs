@@ -23,8 +23,9 @@ import Soup from 'gi://Soup';
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as QuickSettings from 'resource:///org/gnome/shell/ui/quickSettings.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
+import { QuickMenuToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
 import NotificationService from './notifications.js';
 import SettingsService from './settings.js';
@@ -51,7 +52,7 @@ class LocalSendGSIndicator extends SystemIndicator {
 
 
 const LocalSendGSQuickToggle = GObject.registerClass(
-class LocalSendGSQuickToggle extends QuickToggle {
+class LocalSendGSQuickToggle extends QuickMenuToggle {
   constructor(extension) {
     super({
       title: 'LocalSendGS',
@@ -59,6 +60,17 @@ class LocalSendGSQuickToggle extends QuickToggle {
     });
 
     this.gicon = Gio.icon_new_for_string(`${extension.path}/icon-symbolic.svg`);
+
+    this.menu.setHeader(
+      this.gicon,
+      _('LocalSendGS'),
+    );
+
+    this.menu.addMenuItem(new PopupMenu.PopupMenuSection());
+    const settingsItem = this.menu.addAction(
+      'Settings',
+      () => extension.openPreferences(),
+    );
   }
 });
 
@@ -131,6 +143,7 @@ export default class LocalSendGSExtension extends Extension {
 
   disable() {
     this.shutdown();
+    this.settingsService.clearAvailableDevices();
 
     this.notificationService = null;
     this.settingsService = null;

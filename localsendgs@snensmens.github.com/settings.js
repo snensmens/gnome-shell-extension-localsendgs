@@ -84,4 +84,8 @@ export default class SettingsService {
 
       this._settings.set_value('discovered-devices', new GLib.Variant('a{ss}', devices));
   }
+
+  clearAvailableDevices() {
+    this._settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
+  }
 }
