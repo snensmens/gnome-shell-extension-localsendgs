@@ -2,7 +2,7 @@
 <schemalist>
   <schema id="org.gnome.shell.extensions.localsendgs" path="/org/gnome/shell/extensions/localsendgs/">
     <key name="alias" type="s">
-      <default>"LocalSend GS"</default>
+      <default>"LocalSendGS"</default>
     </key>
 
     <key name="storage-path" type="s">
@@ -38,7 +38,7 @@
     </key>
 
     <key name="fileserver-port" type="s">
-      <default>"53317"</default>
+      <default>"53318"</default>
     </key>
 
     <key name="favorites" type="a{ss}">

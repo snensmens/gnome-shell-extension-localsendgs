@@ -84,8 +84,8 @@ export class LocalSendClient {
 
   registerDeviceAt({address, port, protocol, device, onSuccess, onError}) {
     const registerEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/register`;
-    print(`register self at ${registerEndpoint}`);
-
+    print(`register self at ${registerEndpoint} with ${JSON.stringify(device)}`);
+    
     this._sendPostRequest({
       endpoint: registerEndpoint,
       requestBody: JSON.stringify(device),
@@ -123,9 +123,9 @@ export class LocalSendClient {
       else {
         onSuccess(this._session.send_and_read_finish(response));
       }
+      
+      message.disconnect(certificateHandler);
     });
-
-    message.disconnect(certificateHandler);
   }
 
   destroy() {

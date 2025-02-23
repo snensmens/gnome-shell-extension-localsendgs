@@ -54,7 +54,7 @@ const LocalSendGSQuickToggle = GObject.registerClass(
 class LocalSendGSQuickToggle extends QuickToggle {
   constructor(extension) {
     super({
-      title: 'LocalSend GS',
+      title: 'LocalSendGS',
       toggleMode: true,
     });
 
@@ -161,10 +161,10 @@ export default class LocalSendGSExtension extends Extension {
       deviceModel: "Linux",
       deviceType: "headless",
       fingerprint: "8e78dd9d26aa95cb166dc7b838cfff0a6f3e13469c306c5a3793a2d3ed01afaf",
-      port: this.settingsService.getFileServerPort(),
+      port: Number(this.settingsService.getFileServerPort()),
       protocol: "http",
       download: false,
-      announce: true,
+      //announce: true,
     }
 
     this.localSendClient = new LocalSendClient();
