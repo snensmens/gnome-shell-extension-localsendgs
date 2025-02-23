@@ -1,0 +1,191 @@
+# German translation for LocalSendGS.
+# Copyright (C) 2025 snensmens
+# This file is distributed under the same license as LocalSendGS.
+# snensmens <>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-23 16:22+0100\n"
+"PO-Revision-Date: 2025-02-23 15:48+0100\n"
+"Last-Translator: \n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: extension.js:71
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: extension.js:135
+msgid "Favorites only"
+msgstr "Nur Favoriten"
+
+#: notifications.js:17
+msgid "New file share request"
+msgstr "Neue Dateifreigabe"
+
+#: notifications.js:19
+#, javascript-format
+msgid "%s wants to send %d file"
+msgid_plural "%s wants to send %d files"
+msgstr[0] "%s möchte %d Datei senden"
+msgstr[1] "%s möchte %d Dateien senden"
+
+#: notifications.js:32
+msgid "Reject"
+msgstr "Ablehnen"
+
+#: notifications.js:36
+msgid "Accept"
+msgstr "Annehmen"
+
+#: notifications.js:51
+msgid "Success"
+msgstr "Erfolgreich"
+
+#: notifications.js:53
+#, javascript-format
+msgid "Saved %d file"
+msgid_plural "Saved %d files"
+msgstr[0] "%d Datei gespeichert"
+msgstr[1] "%d Dateien gespeichert"
+
+#: notifications.js:64
+msgid "Show in Files"
+msgstr "In Dateien anzeigen"
+
+#: notifications.js:73
+msgid "Transferring"
+msgstr "Übertragen"
+
+#: notifications.js:74
+msgid "Files are being transferred"
+msgstr "Dateien werden übertragen"
+
+#: notifications.js:78
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: notifications.js:87
+msgid "Transfer canceled"
+msgstr "Übertragung abgebrochen"
+
+#: notifications.js:88
+msgid "The sender has canceled the transfer"
+msgstr "Der Sender hat die Übertragung abgebrochen"
+
+#: prefs.js:19 prefs.js:25
+msgid "General"
+msgstr "Allgemein"
+
+#: prefs.js:28
+msgid "Alias"
+msgstr "Alias"
+
+#: prefs.js:32
+msgid "Save folder"
+msgstr "Speicherort"
+
+#: prefs.js:53
+msgid "Extension"
+msgstr "Erweiterung"
+
+#: prefs.js:56
+msgid "Show icon in topbar when enabled"
+msgstr "Icon in Kopfleiste anzeigen wenn aktiv"
+
+#: prefs.js:61
+msgid "Receiving"
+msgstr "Empfangen"
+
+#: prefs.js:65
+msgid "QuickSave"
+msgstr "QuickSave"
+
+#: prefs.js:66
+msgid "Accept incoming files without asking"
+msgstr "Dateifreigaben annehmen ohne zu fragen"
+
+#: prefs.js:68 prefs.js:83
+msgid "never"
+msgstr "niemals"
+
+#: prefs.js:69
+msgid "favorits only"
+msgstr "nur Favoriten"
+
+#: prefs.js:70 prefs.js:85
+msgid "always"
+msgstr "immer"
+
+#: prefs.js:77
+msgid "Security"
+msgstr "Sicherheit"
+
+#: prefs.js:81
+msgid "Require PIN to receive files"
+msgstr "PIN verlangen um Dateien anzunehmen"
+
+#: prefs.js:84
+msgid "if not a favourite"
+msgstr "wenn kein Favorit"
+
+#: prefs.js:90
+msgid "PIN"
+msgstr "PIN"
+
+#: prefs.js:94
+msgid "Allow sending files for"
+msgstr "Dateifreigabe erlauben für"
+
+#: prefs.js:96
+msgid "everyone"
+msgstr "Jeden"
+
+#: prefs.js:97
+msgid "favorites"
+msgstr "Favoriten"
+
+#: prefs.js:104
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: prefs.js:105
+msgid "Onyl change this values if you know what you are doing"
+msgstr "Verändern Sie diese Werte nur wenn Sie wissen was Sie tun"
+
+#: prefs.js:109
+msgid "Multicast group"
+msgstr "Multicast Gruppe"
+
+#: prefs.js:112
+msgid "Multicast port"
+msgstr "Multicast Port"
+
+#: prefs.js:118
+msgid "Fileserver-port"
+msgstr "Dateiserver Port"
+
+#: prefs.js:123 prefs.js:128
+msgid "Favorites"
+msgstr "Favoriten"
+
+#: prefs.js:138
+msgid "Discovered devices"
+msgstr "Entdeckte Geräte"
+
+#: prefs.js:184
+msgid "Remove from favorites"
+msgstr "Von Favoriten entfernen"
+
+#: prefs.js:211
+msgid "Add to favorites"
+msgstr "Zu Favoriten hinzufügen"
+
+#~ msgid "LocalSendGS"
+#~ msgstr "LocalSendGS"
