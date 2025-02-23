@@ -138,12 +138,12 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         let discoveredDevicesGroup = new Adw.PreferencesGroup({ title: 'Discovered devices' });
         favoritesPage.add(discoveredDevicesGroup);
 
-        const availableDevicesList = new Gtk.ListBox({
+        this.availableDevicesList = new Gtk.ListBox({
             selectionMode: Gtk.SelectionMode.NONE,
             cssClasses: ['boxed-list'],
             visible: false,
         });
-        discoveredDevicesGroup.add(availableDevicesList);
+        discoveredDevicesGroup.add(this.availableDevicesList);
 
 
         this.settings.bind('alias', aliasRow, 'text', Gio.SettingsBindFlags.DEFAULT);
@@ -162,11 +162,11 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         });
 
         this.settings.connect('changed::discovered-devices', (..._) => {
-            this.loadDiscoveredDevices(availableDevicesList);
+            this.loadDiscoveredDevices();
         });
 
         this.loadFavorites(favoritesList);
-        this.loadDiscoveredDevices(availableDevicesList);
+        this.loadDiscoveredDevices();
     }
 
     loadFavorites(favoritesList) {
@@ -187,6 +187,7 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
           });
           removeButton.connect('clicked', (..._) => {
               this.settingsService.removeFavorite({fingerprint: fingerprint});
+              this.loadDiscoveredDevices();
           });
 
           row.add_suffix(removeButton);
@@ -194,29 +195,33 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
       }
     }
 
-    loadDiscoveredDevices(availableDevicesList) {
-        availableDevicesList.remove_all();
-        availableDevicesList.visible = false;
+    loadDiscoveredDevices() {
+        this.availableDevicesList.remove_all();
+        this.availableDevicesList.visible = false;
 
         const devices = this.settingsService.getAvailableDevices();
         for (const [fingerprint, alias] of Object.entries(devices)) {
-            availableDevicesList.visible = true;
+            this.availableDevicesList.visible = true;
 
             const row = new Adw.ActionRow({ title: alias });
 
-            const favoritesButton = new Gtk.Button({
-                iconName: 'emblem-favorite-symbolic',
-                tooltipText: 'Add to favorites',
-                valign: Gtk.Align.CENTER,
-                cssClasses: ['circular', 'accent', 'flat']
-            })
-            favoritesButton.connect('clicked', (..._) => {
-                this.settingsService.addFavorite({fingerprint: fingerprint, alias: alias});
-            });
+            if (!this.settingsService.isFavorite(fingerprint)) {
+              const favoritesButton = new Gtk.Button({
+                  iconName: 'emblem-favorite-symbolic',
+                  tooltipText: 'Add to favorites',
+                  valign: Gtk.Align.CENTER,
+                  cssClasses: ['circular', 'accent', 'flat']
+              })
 
-            row.add_suffix(favoritesButton);
+              favoritesButton.connect('clicked', (button) => {
+                  this.settingsService.addFavorite({fingerprint: fingerprint, alias: alias});
+                  button.set_visible(false);
+              });
 
-            availableDevicesList.append(row);
+              row.add_suffix(favoritesButton);
+            }
+
+            this.availableDevicesList.append(row);
         };
     }
 }
