@@ -117,11 +117,13 @@ export class LocalSendClient {
     }
 
     this._session.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (_session, response) => {
+      const response_data = this._session.send_and_read_finish(response);
+
       if (message.get_status() !== Soup.Status.OK) {
           onError(message.get_status(), message.get_reason_phrase());
       }
       else {
-        onSuccess(this._session.send_and_read_finish(response));
+        onSuccess(response_data);
       }
 
       message.disconnect(certificateHandler);
