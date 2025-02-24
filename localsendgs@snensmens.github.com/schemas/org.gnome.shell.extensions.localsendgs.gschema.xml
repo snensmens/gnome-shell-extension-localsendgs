@@ -33,6 +33,10 @@
       <default>0</default>
     </key>
 
+    <key name="fingerprint" type="s">
+      <default>""</default>
+    </key>
+
     <key name="mc-address" type="s">
       <default>"224.0.0.167"</default>
     </key>

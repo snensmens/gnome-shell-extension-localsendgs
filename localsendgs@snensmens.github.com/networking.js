@@ -296,6 +296,9 @@ class FileServer extends Soup.Server {
         const targetFile = Gio.File.new_for_path(`${this._storagePath}/${file.fileName}`);
         message.pause();
 
+        // TODO: this loads the whole response to RAM an then creates a new file from that.
+        // This can be a problem when receiving very large files.
+        // Alternative: directly write the chunks to a file
         await targetFile.replace_contents_async(
           message.get_request_body().data,
           null,

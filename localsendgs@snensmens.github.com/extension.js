@@ -101,6 +101,10 @@ export default class LocalSendGSExtension extends Extension {
       this.settingsService.setPin(pin);
     }
 
+    if (this.settingsService.getFingerprint() === '') {
+      this.settingsService.setFingerprint(GLib.uuid_string_random());
+    }
+
     this.toggle = new LocalSendGSQuickToggle(this);
     this.indicator = new LocalSendGSIndicator(this);
     this.indicator.quickSettingsItems.push(this.toggle);
@@ -163,7 +167,7 @@ export default class LocalSendGSExtension extends Extension {
       version: PROTOCOL_VERSION,
       deviceModel: "Linux",
       deviceType: "headless",
-      fingerprint: "8e78dd9d26aa95cb166dc7b838cfff0a6f3e13469c306c5a3793a2d3ed01afaf",
+      fingerprint: this.settingsService.getFingerprint(),
       port: Number(this.settingsService.getFileServerPort()),
       protocol: "http",
       download: false,

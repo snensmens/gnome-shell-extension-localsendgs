@@ -39,7 +39,15 @@ export default class SettingsService {
   }
 
   setPin(pin) {
-    return this._settings.set_string('pin', pin);
+    this._settings.set_string('pin', pin);
+  }
+
+  getFingerprint() {
+    return this._settings.get_string('fingerprint');
+  }
+
+  setFingerprint(fingerprint) {
+    this._settings.set_string('fingerprint', fingerprint);
   }
 
   getMulticastGroup() {
