@@ -25,7 +25,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as QuickSettings from 'resource:///org/gnome/shell/ui/quickSettings.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { QuickMenuToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
+import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
 import NotificationService from './notifications.js';
 import SettingsService from './settings.js';
@@ -52,7 +52,7 @@ class LocalSendGSIndicator extends SystemIndicator {
 
 
 const LocalSendGSQuickToggle = GObject.registerClass(
-class LocalSendGSQuickToggle extends QuickMenuToggle {
+class LocalSendGSQuickToggle extends QuickToggle {
   constructor(extension) {
     super({
       title: 'LocalSendGS',
@@ -60,17 +60,6 @@ class LocalSendGSQuickToggle extends QuickMenuToggle {
     });
 
     this.gicon = Gio.icon_new_for_string(`${extension.path}/icon-symbolic.svg`);
-
-    this.menu.setHeader(
-      this.gicon,
-      'LocalSendGS',
-    );
-
-    this.menu.addMenuItem(new PopupMenu.PopupMenuSection());
-    const settingsItem = this.menu.addAction(
-      _('Settings'),
-      () => extension.openPreferences(),
-    );
   }
 });
 
