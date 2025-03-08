@@ -12,8 +12,8 @@ LocalSend is a free, Open Source, Cross-Plattform alternative to AirDrop availab
 > LocalSendGS can only receive files. To send files, use the official [LocalSend App](https://localsend.org/de/download).
 
 ## Features
-### Easy acces
-Enable and disable file sharing over the quick menu
+### Easy access
+Easily enable and disable file sharing over the quick menu
 
 ![](resources/quick-settings.png)
 
