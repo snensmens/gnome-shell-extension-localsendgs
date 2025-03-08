@@ -34,7 +34,7 @@ class FileServer extends Soup.Server {
     this._quickSavePolicy = settingsService.getQuickSavePolicy();
     this._pin = settingsService.getPin();
     this._settingsService = settingsService;
-    this._uploadSession = null;
+    this.session = null;
 
     this.set_tls_certificate(certificate);
 
@@ -55,8 +55,8 @@ class FileServer extends Soup.Server {
         if (msg.get_uri().to_string().includes('/api/localsend/v2/upload?')) {
           this.emit('upload-progress');
 
-          //this._uploadSession.receivedBytes += chunk.get_size();
-          //const progress = this._uploadSession.receivedBytes / this._uploadSession.totalSize;
+          //this.session.receivedBytes += chunk.get_size();
+          //const progress = this.session.receivedBytes / this.session.totalSize;
         }
       });
     });
@@ -68,27 +68,25 @@ class FileServer extends Soup.Server {
   }
 
   accept(message) {
-    message.get_response_body().append(JSON.stringify(
-      this._createResponseForUploadRequest(this._uploadSession)
-    ));
+    message.get_response_body().append( new UploadResponse(this.session).toString() );
     message.set_status(Soup.Status.OK, null);
     message.unpause();
   }
 
   reject(message) {
-    this._uploadSession = null;
+    this.session = null;
 
     message.set_status(Soup.Status.FORBIDDEN, null);
     message.unpause();
   }
 
   hasSession() {
-    return this._uploadSession !== null;
+    return this.session !== null;
   }
 
   _prepareUpload({message, query}) {
     // refuse to prepare a new upload when a session is alread present
-    if (this._uploadSession !== null) {
+    if (this.session !== null) {
       message.set_status(Soup.Status.CONFLICT, null);
       return
     }
@@ -114,10 +112,7 @@ class FileServer extends Soup.Server {
       if (this._quickSavePolicy === QuickSavePolicy.ALWAYS ||
         (this._quickSavePolicy === QuickSavePolicy.FAVORITES_ONLY && isFavorite)) {
 
-        message.get_response_body().append(JSON.stringify(
-          this._createResponseForUploadRequest(this._uploadSession)
-        ));
-
+        message.get_response_body().append( new UploadResponse(this.session).toString() );
         message.set_status(Soup.Status.OK, null);
         return
       }
@@ -125,13 +120,13 @@ class FileServer extends Soup.Server {
       message.pause();
       this.emit('transfer-request',
         message,
-        this._uploadSession.sender.alias,
-        this._uploadSession.files.length,
-        this._uploadSession.totalSize
+        this.session.sender.alias,
+        this.session.files.length,
+        this.session.totalSize
       );
     }
     catch (error) {
-      this._uploadSession = null;
+      this.session = null;
 
       if (error instanceof SyntaxError) {
         message.set_status(Soup.Status.BAD_REQUEST, null);
@@ -152,25 +147,25 @@ class FileServer extends Soup.Server {
     }
 
     // a session must be present in order to upload files
-    if (!this._uploadSession) {
+    if (!this.session) {
       message.set_status(Soup.Status.NOT_FOUND, null);
       return
     }
 
     // block upload requests from other localSend clients
-    if (query.sessionId !== this._uploadSession.id) {
+    if (query.sessionId !== this.session.id) {
       message.set_status(Soup.Status.CONFLICT, null);
       return
     }
 
-    for (const file of this._uploadSession.files) {
+    for (const file of this.session.files) {
       if (file.id === query.fileId && file.token === query.token) {
         if (file.state === TransferState.FINISHED) {
           message.set_status(Soup.Status.NO_CONTENT, null);
           return
         }
 
-        const targetFile = Gio.File.new_for_path(`${this._storagePath}/${file.fileName}`);
+        const targetFile = Gio.File.new_for_path(`${this._storagePath}/${file.name}`);
         message.pause();
 
         // TODO: this loads the whole response to RAM an then creates a new file from that.
@@ -191,9 +186,9 @@ class FileServer extends Soup.Server {
 
         // localSend doesnt tell us when all uploads are done
         // we have to check it ourself after every upload
-        if (this._uploadSession.files.every(f => f.state === TransferState.FINISHED)) {
-          this.emit('upload-finished', this._uploadSession.files.length);
-          this._uploadSession = null;
+        if (this.session.files.every(f => f.state === TransferState.FINISHED)) {
+          this.emit('upload-finished', this.session.files.length);
+          this.session = null;
         }
 
         return
@@ -208,71 +203,85 @@ class FileServer extends Soup.Server {
 
   _handleCancellation({message, query}) {
     // block cancel requests from other localSend clients
-    if (query && (query.sessionId !== this._uploadSession.id)) {
+    if (query && (query.sessionId !== this.session.id)) {
       message.set_status(Soup.Status.CONFLICT, null);
       return
     }
 
-    if(this._uploadSession) {
+    if(this.session) {
       this.emit('upload-canceled');
     }
 
-    this._uploadSession = null;
+    this.session = null;
     message.set_status(Soup.Status.OK, null);
   }
 
   _setSessionFromUploadRequest(origin, uploadRequest) {
-    if (!uploadRequest.info.alias || !uploadRequest.info.version ||
-        !uploadRequest.info.fingerprint || !uploadRequest.info.port ||
-        !uploadRequest.info.protocol || !uploadRequest.files
-    ) {
-      throw new SyntaxError();
-    }
-
-    const session = {
-      id: GLib.uuid_string_random(),
-      sender: {
-        ...uploadRequest.info,
-        origin: origin,
-      },
-      files: [],
-      totalSize: 0,
-      receivedBytes: 0,
-    };
-
-    session.sender.deviceModel = uploadRequest.info.deviceModel ?? null;
-    session.sender.deviceType = uploadRequest.info.deviceType ?? null;
-    session.sender.download = uploadRequest.info.download ?? false;
+    this.session = new Session({
+      alias: uploadRequest.info.alias,
+      deviceType: uploadRequest.info.deviceType,
+      fingerprint: uploadRequest.info.fingerprint,
+      port: uploadRequest.info.port,
+      origin: origin
+    });
 
     for (const id in uploadRequest.files) {
-      const file = uploadRequest.files[id]
-
-      if (!file.id || !file.fileName || !file.fileType || !file.size) {
-        throw new SyntaxError();
-      }
-
-      session.files.push({
-        ...file,
-        token: GLib.uuid_string_random(),
-        state: TransferState.OPEN,
+      this.session.addFile({
+        id: uploadRequest.files[id].id,
+        name: uploadRequest.files[id].fileName,
+        type: uploadRequest.files[id].fileType,
+        size: uploadRequest.files[id].size,
       });
-
-      session.totalSize += file.size;
     }
-
-    this._uploadSession = session;
-  }
-
-  _createResponseForUploadRequest(uploadSession) {
-    const response = {
-      sessionId: uploadSession.id,
-      files: {}
-    };
-
-    for(const file of uploadSession.files) {
-      response.files[file.id] = file.token;
-    }
-
-    return response;
   }
 });
+
+
+class Session {
+  constructor({ alias, deviceType, fingerprint, port, origin }) {
+    this.id = GLib.uuid_string_random();
+    this.sender = {
+      alias: alias,
+      deviceType: deviceType,
+      fingerprint: fingerprint,
+      port: port,
+      origin: origin
+    };
+    this.files = [];
+    this.totalSize = 0;
+    this.receivedBytes = 0;
+  }
+
+  addFile({ id, name, type, size }) {
+    this.files.push({
+      id: id,
+      name: name,
+      type: type,
+      size: size,
+      token: GLib.uuid_string_random(),
+      state: TransferState.OPEN,
+    });
+
+    this.totalSize += size;
+  }
+
+  toString() {
+    return JSON.stringify(this);
+  }
+}
+
+
+class UploadResponse {
+  constructor(session) {
+    this.sessionId = session.id;
+    this.files = {};
+
+    for(const file of session.files) {
+      this.files[file.id] = file.token;
+    }
+  }
+
+  toString() {
+    return JSON.stringify(this);
+  }
+}
