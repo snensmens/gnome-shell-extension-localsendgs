@@ -30,6 +30,7 @@ import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/qui
 import NotificationService from './notifications.js';
 import SettingsService from './settings.js';
 import { AcceptPolicy, LocalSendClient, FileServer, createMulticastSocket, getLocalIpAddress } from './networking.js';
+import { createPrivateKey, createCertificate } from './security.js';
 
 
 const PROTOCOL_VERSION = '2.1';
@@ -155,6 +156,18 @@ export default class LocalSendGSExtension extends Extension {
   async setup() {
     print(`setup LocalSendGS`);
 
+    await createPrivateKey({
+      path: `${this.path}/resources/key.pem`,
+      cancellable: null
+    });
+
+    await createCertificate({
+      path: `${this.path}/resources/cert.pem`,
+      key: `${this.path}/resources/key.pem`,
+      template: `${this.path}/resources/cert-template.cfg`,
+      cancellable: null
+    });
+
     const ipAddress = await getLocalIpAddress();
     if (ipAddress === null) {
       print(`no ip address - set toggle back to inactive`);
@@ -169,15 +182,19 @@ export default class LocalSendGSExtension extends Extension {
       deviceType: "headless",
       fingerprint: this.settingsService.getFingerprint(),
       port: Number(this.settingsService.getFileServerPort()),
-      protocol: "http",
+      protocol: "https",
       download: false,
-      //announce: true,
+      announce: true,
     }
 
     this.localSendClient = new LocalSendClient();
 
     this.fileServer = new FileServer({
       address: ipAddress,
+      certificate: Gio.TlsCertificate.new_from_files(
+        `${this.path}/resources/cert.pem`,
+        `${this.path}/resources/key.pem`,
+      ),
       settingsService: this.settingsService,
     });
     this.fileServer.connect('transfer-request', (...request) => this.onTransferRequest(...request));

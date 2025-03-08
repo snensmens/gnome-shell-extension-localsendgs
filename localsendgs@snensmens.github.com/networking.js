@@ -152,7 +152,7 @@ export const FileServer = GObject.registerClass({
   },
 },
 class FileServer extends Soup.Server {
-  constructor({address, pin, settingsService}) {
+  constructor({address, certificate, settingsService}) {
     print(`creating new FileServer`);
 
     super();
@@ -164,6 +164,8 @@ class FileServer extends Soup.Server {
     this._pin = settingsService.getPin();
     this._settingsService = settingsService;
     this._uploadSession = null;
+
+    this.set_tls_certificate(certificate);
 
     this.add_handler("/api/localsend/v2/prepare-upload", (server, msg, _path, query) => {
       this._prepareUpload({message: msg, query: query});
@@ -188,7 +190,10 @@ class FileServer extends Soup.Server {
       });
     });
 
-    this.listen(Gio.InetSocketAddress.new_from_string(address, this._port), null);
+    this.listen(
+      Gio.InetSocketAddress.new_from_string(address, this._port),
+      Soup.ServerListenOptions.HTTPS
+    );
   }
 
   acceptTransfer(message) {
