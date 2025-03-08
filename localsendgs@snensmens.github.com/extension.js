@@ -41,7 +41,7 @@ class LocalSendGSIndicator extends SystemIndicator {
     super();
 
     this.indicator = this._addIndicator();
-    this.indicator.gicon = Gio.icon_new_for_string(`${extension.path}/icon-symbolic.svg`);
+    this.indicator.gicon = Gio.icon_new_for_string(`${extension.path}/resources/icon-symbolic.svg`);
     this.indicator.visible = false;
   }
 
@@ -59,7 +59,7 @@ class LocalSendGSQuickToggle extends QuickToggle {
       toggleMode: true,
     });
 
-    this.gicon = Gio.icon_new_for_string(`${extension.path}/icon-symbolic.svg`);
+    this.gicon = Gio.icon_new_for_string(`${extension.path}/resources/icon-symbolic.svg`);
   }
 });
 
@@ -79,7 +79,7 @@ export default class LocalSendGSExtension extends Extension {
     this.settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
 
     this.notificationService = new NotificationService({
-      icon: `${this.path}/icon-symbolic.svg`
+      icon: `${this.path}/resources/icon-symbolic.svg`
     });
     this.settingsService = new SettingsService({
       settings: this.settings

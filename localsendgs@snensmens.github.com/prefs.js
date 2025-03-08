@@ -13,7 +13,7 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         this.settings = this.getSettings();
         this.settingsService = new SettingsService({
           settings: this.settings
-        })
+        });
 
         const generalPage = new Adw.PreferencesPage({
             title: _('General'),
