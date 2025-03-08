@@ -49,7 +49,7 @@ export async function getLocalIpAddress() {
         return stdout.split(" ")[0]
     }
     else {
-        print(`fetching local ip address failed: ${stderr.trim()}`);
+        throw stderr.trim();
     }
   } catch (e) {
     console.error(`fetching local ip address failed: ${e}`);
@@ -73,67 +73,6 @@ export function createMulticastSocket({group, port}) {
   socket.join_multicast_group(Gio.InetAddress.new_from_string(group), false, null);
 
   return socket;
-}
-
-
-export class LocalSendClient {
-  constructor() {
-    print(`creating new LocalSendClient`)
-    this._session = new Soup.Session();
-  }
-
-  registerDeviceAt({address, port, protocol, device, onSuccess, onError}) {
-    const registerEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/register`;
-    print(`register self at ${registerEndpoint} with ${JSON.stringify(device)}`);
-
-    this._sendPostRequest({
-      endpoint: registerEndpoint,
-      requestBody: JSON.stringify(device),
-      onSuccess: onSuccess,
-      onError: onError
-    });
-  }
-
-  sendCancelRequest({address, port, protocol, sessionId, onSuccess, onError}) {
-    const cancelEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/cancel?sessionId=${sessionId}`;
-    print(`sending cancel request to ${cancelEndpoint}`);
-
-    this._sendPostRequest({
-      endpoint: cancelEndpoint,
-      onSuccess: onSuccess,
-      onError: onError
-    });
-  }
-
-  _sendPostRequest({endpoint, requestBody, onSuccess, onError}) {
-    const message = Soup.Message.new("POST", endpoint);
-    const certificateHandler = message.connect("accept-certificate", (_message, _certificat,_tlsErrors) => true);
-
-    if (requestBody) {
-      message.set_request_body_from_bytes(
-        "application/json",
-        GLib.Bytes.new(new TextEncoder().encode(requestBody))
-      );
-    }
-
-    this._session.send_and_read_async(message, GLib.PRIORITY_DEFAULT, null, (_session, response) => {
-      const response_data = this._session.send_and_read_finish(response);
-
-      if (message.get_status() !== Soup.Status.OK) {
-          onError(message.get_status(), message.get_reason_phrase());
-      }
-      else {
-        onSuccess(response_data);
-      }
-
-      message.disconnect(certificateHandler);
-    });
-  }
-
-  destroy() {
-    this._session.abort();
-    this._session = null;
-  }
 }
 
 

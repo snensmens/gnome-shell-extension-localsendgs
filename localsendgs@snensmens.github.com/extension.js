@@ -29,7 +29,8 @@ import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/qui
 
 import NotificationService from './notifications.js';
 import SettingsService from './settings.js';
-import { AcceptPolicy, LocalSendClient, FileServer, createMulticastSocket, getLocalIpAddress } from './networking.js';
+import { LocalSendClient } from './client.js';
+import { AcceptPolicy, FileServer, createMulticastSocket, getLocalIpAddress } from './networking.js';
 import { createPrivateKey, createCertificate } from './security.js';
 
 
@@ -265,13 +266,9 @@ export default class LocalSendGSExtension extends Extension {
       port: device.port,
       protocol: device.protocol,
       device: this.device,
-      onSuccess: (_) => {
-        print(`registration successful`);
-      },
-      onError: (status, reason) => {
-        print(`registering failed: ${status} ${reason}`);
-      },
-    });
+    })
+      .then(() => print(`registration successful`))
+      .catch(e => print(`registering failed: ${e}`));
 
     return GLib.SOURCE_CONTINUE;
   }
@@ -307,16 +304,16 @@ export default class LocalSendGSExtension extends Extension {
             port: server._uploadSession.sender.port,
             protocol: server._uploadSession.sender.protocol,
             sessionId: server._uploadSession.id,
-            onSuccess: (_) => {
-              this.progressNotification = null;
+          })
+          .then(() => {
+            this.progressNotification = null;
 
-              server._uploadSession = null;
-              server.emit('upload-canceled');
-            },
-            onError: (code, reason) => {
-              this.progressNotification = null;
-              print(`cancelling failed: ${code} ${reason}`);
-            }
+            server._uploadSession = null;
+            server.emit('upload-canceled');
+          })
+          .catch(e => {
+            this.progressNotification = null;
+            print(`cancelling failed: ${e}`);
           });
         }
       });
