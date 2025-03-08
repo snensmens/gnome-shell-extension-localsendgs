@@ -42,11 +42,11 @@ class FileServer extends Soup.Server {
       this._prepareUpload({message: msg, query: query});
     });
 
-    this.add_handler("/api/localsend/v2/upload", (_server, msg, path, query) => {
+    this.add_handler("/api/localsend/v2/upload", (server, msg, path, query) => {
       this._handleUpload({message: msg, query: query}).catch(console.error);
     });
 
-    this.add_handler("/api/localsend/v2/cancel", (_server, msg, path, query) => {
+    this.add_handler("/api/localsend/v2/cancel", (server, msg, path, query) => {
       this._handleCancellation({message: msg, query: query});
     });
 
@@ -95,23 +95,19 @@ class FileServer extends Soup.Server {
       const uploadRequest = JSON.parse(new TextDecoder().decode(message.get_request_body().data));
       const isFavorite = this._settingsService.isFavorite(uploadRequest?.info?.fingerprint);
 
-      if (this._acceptPolicy === AcceptPolicy.FAVORITES_ONLY && !isFavorite) {
+      if (!AcceptPolicy.doesAccept(this._acceptPolicy, isFavorite)) {
         message.set_status(Soup.Status.FORBIDDEN, null);
         return
       }
 
-      if ((this._pinPolicy === PinPolicy.ALWAYS || (this._pinPolicy === PinPolicy.IF_NOT_FAVORITE && !isFavorite))
-          && this._pin !== query?.pin) {
-
+      if (PinPolicy.requiresPin(this._pinPolicy, isFavorite) && this._pin !== query?.pin) {
         message.set_status(Soup.Status.UNAUTHORIZED, null);
         return
       }
 
       this._setSessionFromUploadRequest(message.get_remote_host(), uploadRequest);
 
-      if (this._quickSavePolicy === QuickSavePolicy.ALWAYS ||
-        (this._quickSavePolicy === QuickSavePolicy.FAVORITES_ONLY && isFavorite)) {
-
+      if (QuickSavePolicy.allowsQuickSave(this._quickSavePolicy, isFavorite)) {
         message.get_response_body().append( new UploadResponse(this.session).toString() );
         message.set_status(Soup.Status.OK, null);
         return
@@ -147,7 +143,7 @@ class FileServer extends Soup.Server {
     }
 
     // a session must be present in order to upload files
-    if (!this.session) {
+    if (!this.hasSession()) {
       message.set_status(Soup.Status.NOT_FOUND, null);
       return
     }
@@ -203,12 +199,12 @@ class FileServer extends Soup.Server {
 
   _handleCancellation({message, query}) {
     // block cancel requests from other localSend clients
-    if (query && (query.sessionId !== this.session.id)) {
+    if (query?.sessionId !== this.session.id)) {
       message.set_status(Soup.Status.CONFLICT, null);
       return
     }
 
-    if(this.session) {
+    if(this.hasSession()) {
       this.emit('upload-canceled');
     }
 

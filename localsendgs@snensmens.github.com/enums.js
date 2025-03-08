@@ -3,24 +3,31 @@ export const TransferState = {
     FINISHED: 1,
 };
 
-export const AcceptPolicy = {
-    EVERYONE: 0,
-    FAVORITES_ONLY: 1,
+export class AcceptPolicy {
+    static EVERYONE = 0;
+    static FAVORITES_ONLY = 1;
+
+    static doesAccept(policy, isFavorite) {
+      return (policy === AcceptPolicy.EVERYONE || isFavorite);
+    }
 };
 
-export const QuickSavePolicy = {
-    NEVER: 0,
-    FAVORITES_ONLY: 1,
-    ALWAYS: 2,
+export class QuickSavePolicy {
+    static NEVER = 0;
+    static FAVORITES_ONLY = 1;
+    static ALWAYS = 2;
+
+    static allowsQuickSave(policy, isFavorite) {
+      return policy === QuickSavePolicy.ALWAYS || (policy === QuickSavePolicy.FAVORITES_ONLY && isFavorite);
+    }
 };
 
-export const PinPolicy = {
-    NEVER: 0,
-    IF_NOT_FAVORITE: 1,
-    ALWAYS: 2,
-};
+export class PinPolicy {
+    static NEVER = 0;
+    static IF_NOT_FAVORITE = 1;
+    static ALWAYS = 2;
 
-export const VisibilityPolicy = {
-    EVERYONE: 0,
-    FAVORITES_ONLY: 1,
+    static requiresPin(policy, isFavorite) {
+      return policy === PinPolicy.ALWAYS || (policy === PinPolicy.IF_NOT_FAVORITE && !isFavorite);
+    }
 };
