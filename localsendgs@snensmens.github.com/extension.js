@@ -30,7 +30,9 @@ import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/qui
 import NotificationService from './notifications.js';
 import SettingsService from './settings.js';
 import { LocalSendClient } from './client.js';
-import { AcceptPolicy, FileServer, createMulticastSocket, getLocalIpAddress } from './networking.js';
+import { FileServer } from './fileserver.js';
+import { AcceptPolicy } from './enums.js';
+import { createMulticastSocket, getLocalIpAddress } from './networking.js';
 import { createPrivateKey, createCertificate } from './security.js';
 
 
@@ -282,12 +284,12 @@ export default class LocalSendGSExtension extends Extension {
       size: size,
       onAccept: () => {
         print(`user accepted the request`);
-        server.acceptTransfer(message);
+        server.accept(message);
         this.permissionNotification = null;
       },
       onDismiss: () => {
         print(`user rejected the request`);
-        server.rejectTransfer(message);
+        server.reject(message);
         this.permissionNotification = null;
       }
     });
