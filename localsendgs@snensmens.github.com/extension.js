@@ -276,12 +276,13 @@ export default class LocalSendGSExtension extends Extension {
     return GLib.SOURCE_CONTINUE;
   }
 
-  onTransferRequest(server, message, alias, fileCount) {
-    print(`new transfer request from ${alias} (${fileCount} files)`);
+  onTransferRequest(server, message, alias, fileCount, size) {
+    print(`new transfer request from ${alias} (${fileCount} files, ${size} bytes)`);
 
     this.permissionNotification = this.notificationService.askForPermission({
       alias: alias,
       fileCount: fileCount,
+      size: size,
       onAccept: () => {
         print(`user accepted the request`);
         server.acceptTransfer(message);

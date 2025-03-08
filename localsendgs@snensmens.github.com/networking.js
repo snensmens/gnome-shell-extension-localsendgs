@@ -140,8 +140,8 @@ export class LocalSendClient {
 export const FileServer = GObject.registerClass({
   Signals: {
     'transfer-request': {
-      // [Soup.ServerMessage, requester alias, number of files]
-      param_types: [GObject.TYPE_OBJECT, GObject.TYPE_STRING, GObject.TYPE_INT],
+      // [Soup.ServerMessage, requester alias, number of files, size in bytes]
+      param_types: [GObject.TYPE_OBJECT, GObject.TYPE_STRING, GObject.TYPE_INT, GObject.TYPE_INT],
     },
     'upload-progress': {},
     'upload-canceled': {},
@@ -255,7 +255,8 @@ class FileServer extends Soup.Server {
       this.emit('transfer-request',
         message,
         this._uploadSession.sender.alias,
-        this._uploadSession.files.length
+        this._uploadSession.files.length,
+        this._uploadSession.totalSize
       );
     }
     catch (error) {

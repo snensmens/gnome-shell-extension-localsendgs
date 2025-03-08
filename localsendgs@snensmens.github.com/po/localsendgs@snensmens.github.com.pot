@@ -1,82 +1,78 @@
-# LocalSendGS.
-# Copyright (C) 2025 snensmens
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR snensmens
 # This file is distributed under the same license as the LocalSendGS package.
-# snensmens, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: LocalSendGS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 22:41+0100\n"
+"POT-Creation-Date: 2025-03-08 19:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: extension.js:71
-msgid "Settings"
-msgstr ""
-
-#: extension.js:135
+#: extension.js:130
 msgid "Favorites only"
 msgstr ""
 
-#: notifications.js:17
+#: notifications.js:23
 msgid "New file share request"
 msgstr ""
 
-#: notifications.js:19
+#: notifications.js:25
 #, javascript-format
-msgid "%s wants to send %d file"
-msgid_plural "%s wants to send %d files"
+msgid "%s wants to send %d file (%f %s)"
+msgid_plural "%s wants to send %d files (%f %s)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notifications.js:32
+#: notifications.js:38
 msgid "Reject"
 msgstr ""
 
-#: notifications.js:36
+#: notifications.js:42
 msgid "Accept"
 msgstr ""
 
-#: notifications.js:51
+#: notifications.js:57
 msgid "Success"
 msgstr ""
 
-#: notifications.js:53
+#: notifications.js:59
 #, javascript-format
 msgid "Saved %d file"
 msgid_plural "Saved %d files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: notifications.js:64
+#: notifications.js:70
 msgid "Show in Files"
 msgstr ""
 
-#: notifications.js:73
+#: notifications.js:79
 msgid "Transferring"
 msgstr ""
 
-#: notifications.js:74
+#: notifications.js:80
 msgid "Files are being transferred"
 msgstr ""
 
-#: notifications.js:78
+#: notifications.js:84
 msgid "Cancel"
 msgstr ""
 
-#: notifications.js:87
+#: notifications.js:93
 msgid "Transfer canceled"
 msgstr ""
 
-#: notifications.js:88
+#: notifications.js:94
 msgid "The sender has canceled the transfer"
 msgstr ""
 

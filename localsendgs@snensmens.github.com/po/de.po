@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 22:41+0100\n"
+"POT-Creation-Date: 2025-03-08 19:17+0100\n"
 "PO-Revision-Date: 2025-02-23 15:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
@@ -17,65 +17,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:71
-msgid "Settings"
-msgstr "Einstellungen"
-
-#: extension.js:135
+#: extension.js:130
 msgid "Favorites only"
 msgstr "Nur Favoriten"
 
-#: notifications.js:17
+#: notifications.js:23
 msgid "New file share request"
 msgstr "Neue Dateifreigabe"
 
-#: notifications.js:19
+#: notifications.js:25
 #, javascript-format
-msgid "%s wants to send %d file"
-msgid_plural "%s wants to send %d files"
-msgstr[0] "%s möchte %d Datei senden"
-msgstr[1] "%s möchte %d Dateien senden"
+msgid "%s wants to send %d file (%f %s)"
+msgid_plural "%s wants to send %d files (%f %s)"
+msgstr[0] "%s möchte %d Datei senden (%f %s)"
+msgstr[1] "%s möchte %d Dateien senden (%f %s)"
 
-#: notifications.js:32
+#: notifications.js:38
 msgid "Reject"
 msgstr "Ablehnen"
 
-#: notifications.js:36
+#: notifications.js:42
 msgid "Accept"
 msgstr "Annehmen"
 
-#: notifications.js:51
+#: notifications.js:57
 msgid "Success"
 msgstr "Erfolgreich"
 
-#: notifications.js:53
+#: notifications.js:59
 #, javascript-format
 msgid "Saved %d file"
 msgid_plural "Saved %d files"
 msgstr[0] "%d Datei gespeichert"
 msgstr[1] "%d Dateien gespeichert"
 
-#: notifications.js:64
+#: notifications.js:70
 msgid "Show in Files"
 msgstr "In Dateien anzeigen"
 
-#: notifications.js:73
+#: notifications.js:79
 msgid "Transferring"
 msgstr "Übertragen"
 
-#: notifications.js:74
+#: notifications.js:80
 msgid "Files are being transferred"
 msgstr "Dateien werden übertragen"
 
-#: notifications.js:78
+#: notifications.js:84
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: notifications.js:87
+#: notifications.js:93
 msgid "Transfer canceled"
 msgstr "Übertragung abgebrochen"
 
-#: notifications.js:88
+#: notifications.js:94
 msgid "The sender has canceled the transfer"
 msgstr "Der Sender hat die Übertragung abgebrochen"
 
@@ -194,6 +190,9 @@ msgstr "Von Favoriten entfernen"
 #: prefs.js:229
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
+
+#~ msgid "Settings"
+#~ msgstr "Einstellungen"
 
 #~ msgid "LocalSendGS"
 #~ msgstr "LocalSendGS"

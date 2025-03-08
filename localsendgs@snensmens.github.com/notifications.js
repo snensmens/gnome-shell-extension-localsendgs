@@ -12,14 +12,20 @@ export default class NotificationService {
     this._notificationSource = null;
   }
 
-  askForPermission({alias, fileCount, onAccept, onDismiss}) {
+  askForPermission({alias, fileCount, size, onAccept, onDismiss}) {
+    // convert size from bytes to a better readable unit
+    const units = ['Bytes', 'KB', 'MB', 'GB'];
+    const exp = Math.floor(Math.log(size) / Math.log(1024));
+    const preferredUnit = Math.min(exp , units.length);
+    const prettyFileSize = (''+(size / Math.pow(1024, exp)).toFixed(1)).replace('.0', '');
+
     const notification = this._createNotification({
       title: _('New file share request'),
       body: ngettext(
-        '%s wants to send %d file',
-        '%s wants to send %d files',
+        '%s wants to send %d file (%f %s)',
+        '%s wants to send %d files (%f %s)',
         fileCount
-      ).format(alias, fileCount),
+      ).format(alias, fileCount, prettyFileSize, units[preferredUnit]),
       iconName: 'emblem-shared-symbolic',
     });
 
