@@ -135,6 +135,8 @@ export default class LocalSendGSExtension extends Extension {
         print(`setting up LocalSendGS failed: ${error}`);
       }
     });
+
+    this.toggle.checked = this.settingsService.getEnableOnLogin();
   }
 
   disable() {

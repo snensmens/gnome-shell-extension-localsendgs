@@ -17,6 +17,10 @@
       <default>false</default>
     </key>
 
+    <key name="enable-on-login" type="b">
+      <default>false</default>
+    </key>
+
     <key name="quick-save-policy" type="i">
       <default>0</default>
     </key>

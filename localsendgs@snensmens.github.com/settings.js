@@ -96,4 +96,8 @@ export default class SettingsService {
   clearAvailableDevices() {
     this._settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
   }
+
+  getEnableOnLogin() {
+    return this._settings.get_boolean('enable-on-login');
+  }
 }

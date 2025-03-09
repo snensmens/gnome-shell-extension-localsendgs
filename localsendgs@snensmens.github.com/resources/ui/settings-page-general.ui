@@ -49,6 +49,11 @@
             <property name="title" translatable="yes">Show icon in topbar when enabled</property>
           </object>
         </child>
+        <child>
+          <object class="AdwSwitchRow" id="enableOnLoginRow">
+            <property name="title" translatable="yes">Enable on login</property>
+          </object>
+        </child>
       </object>
     </child>
     <child>

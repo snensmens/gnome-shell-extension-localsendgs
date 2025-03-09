@@ -37,6 +37,7 @@ const GeneralSettingsPage = GObject.registerClass({
     'saveLocationRow',
     'extensionGroup',
     'showIconRow',
+    'enableOnLoginRow',
     'receiveGroup',
     'quickSavePolicyRow',
     'securityGroup',
@@ -67,6 +68,7 @@ class GeneralSettingsPage extends Adw.PreferencesPage {
     this.settings.bind('alias', this._aliasRow, 'text', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('storage-path', this._saveLocationRow, 'subtitle', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('show-icon', this._showIconRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('enable-on-login', this._enableOnLoginRow, 'active', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('quick-save-policy', this._quickSavePolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('pin-policy', this._pinPolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
     this.settings.bind('pin', this._pinRow, 'text', Gio.SettingsBindFlags.DEFAULT);
