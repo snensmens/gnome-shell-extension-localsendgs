@@ -199,7 +199,7 @@ class FileServer extends Soup.Server {
 
   _handleCancellation({message, query}) {
     // block cancel requests from other localSend clients
-    if (query?.sessionId !== this.session.id)) {
+    if (query?.sessionId !== this.session.id) {
       message.set_status(Soup.Status.CONFLICT, null);
       return
     }
