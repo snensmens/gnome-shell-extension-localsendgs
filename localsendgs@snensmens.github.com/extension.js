@@ -80,14 +80,12 @@ export default class LocalSendGSExtension extends Extension {
 
     this.settings = this.getSettings('org.gnome.shell.extensions.localsendgs');
     this.settings.set_boolean('extension-active', false);
-    this.settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
 
     this.notificationService = new NotificationService({
       icon: `${this.path}/resources/icon-symbolic.svg`
     });
-    this.settingsService = new SettingsService({
-      settings: this.settings
-    });
+    this.settingsService = new SettingsService({ settings: this.settings });
+    this.settingsService.clearAvailableDevices();
 
     if (this.settingsService.getStoragePath() === '') {
       this.settingsService.setStoragePath(
