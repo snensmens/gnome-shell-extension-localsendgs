@@ -154,41 +154,41 @@ class FileServer extends Soup.Server {
       return
     }
 
-    for (const file of this.session.files) {
-      if (file.id === query.fileId && file.token === query.token) {
-        if (file.state === TransferState.FINISHED) {
-          message.set_status(Soup.Status.NO_CONTENT, null);
-          return
-        }
+    const file = this.session.getFile(query.fileId);
 
-        const targetFile = Gio.File.new_for_path(`${this._storagePath}/${file.name}`);
-        message.pause();
-
-        // TODO: this loads the whole response to RAM an then creates a new file from that.
-        // This can be a problem when receiving very large files.
-        // Alternative: directly write the chunks to a file
-        await targetFile.replace_contents_async(
-          message.get_request_body().data,
-          null,
-          false,
-          Gio.FileCreateFlags.NONE,
-          null,
-        );
-
-        file.state = TransferState.FINISHED;
-
-        message.set_status(Soup.Status.OK , null);
-        message.unpause();
-
-        // localSend doesnt tell us when all uploads are done
-        // we have to check it ourself after every upload
-        if (this.session.files.every(f => f.state === TransferState.FINISHED)) {
-          this.emit('upload-finished', this.session.files.length);
-          this.session = null;
-        }
-
+    if (file?.id === query.fileId && file?.token === query.token) {
+      if (file.state === TransferState.FINISHED) {
+        message.set_status(Soup.Status.NO_CONTENT, null);
         return
       }
+
+      const targetFile = Gio.File.new_for_path(`${this._storagePath}/${file.name}`);
+      message.pause();
+
+      // TODO: this loads the whole response to RAM an then creates a new file from that.
+      // This can be a problem when receiving very large files.
+      // Alternative: directly write the chunks to a file
+      await targetFile.replace_contents_async(
+        message.get_request_body().data,
+        null,
+        false,
+        Gio.FileCreateFlags.NONE,
+        null,
+      );
+
+      file.state = TransferState.FINISHED;
+
+      message.set_status(Soup.Status.OK , null);
+      message.unpause();
+
+      // localSend doesnt tell us when all uploads are done
+      // we have to check it ourself after every upload
+      if (this.session.files.every(f => f.state === TransferState.FINISHED)) {
+        this.emit('upload-finished', this.session.files.length);
+        this.session = null;
+      }
+
+      return
     }
 
     // refuse the upload requeset because the requested file to upload is either:
@@ -259,6 +259,16 @@ class Session {
     });
 
     this.totalSize += size;
+  }
+
+  getFile(id) {
+    for (const file in this.files) {
+      if (file.id === id) {
+        return file;
+      }
+    }
+
+    return null;
   }
 
   toString() {
