@@ -11,106 +11,16 @@ Gio._promisify(Gtk.FileDialog.prototype, 'select_folder', 'select_folder_finish'
 
 
 export default class LocalSendGSPreferences extends ExtensionPreferences {
-    fillPreferencesWindow(window) {
-        this.settings = this.getSettings();
-        this.settingsService = new SettingsService({ settings: this.settings });
+  fillPreferencesWindow(window) {
+    this.settings = this.getSettings();
+    this.settingsService = new SettingsService({ settings: this.settings });
 
-        const generalPage = new GeneralSettingsPage(window, this.settings);
-        window.add(generalPage);
+    const generalPage = new GeneralSettingsPage(window, this.settings);
+    window.add(generalPage);
 
-        const favoritesPage = new Adw.PreferencesPage({
-            title: _('Favorites'),
-            iconName: 'emblem-favorite-symbolic'
-        });
-        window.add(favoritesPage);
-
-        const favoritesGroup = new Adw.PreferencesGroup({ title: _('Favorites') });
-        favoritesPage.add(favoritesGroup);
-
-        const favoritesList = new Gtk.ListBox({
-            selectionMode: Gtk.SelectionMode.NONE,
-            cssClasses: ['boxed-list'],
-            visible: false,
-        });
-        favoritesGroup.add(favoritesList);
-
-        let discoveredDevicesGroup = new Adw.PreferencesGroup({ title: _('Discovered devices') });
-        favoritesPage.add(discoveredDevicesGroup);
-
-        this.availableDevicesList = new Gtk.ListBox({
-            selectionMode: Gtk.SelectionMode.NONE,
-            cssClasses: ['boxed-list'],
-            visible: false,
-        });
-        discoveredDevicesGroup.add(this.availableDevicesList);
-
-        this.settings.connect('changed::favorites', (..._) => {
-            this.loadFavorites(favoritesList);
-        });
-
-        this.settings.connect('changed::discovered-devices', (..._) => {
-            this.loadDiscoveredDevices();
-        });
-
-        this.loadFavorites(favoritesList);
-        this.loadDiscoveredDevices();
-    }
-
-    loadFavorites(favoritesList) {
-      favoritesList.remove_all();
-      favoritesList.visible = false;
-
-      const favorites = this.settings.get_value('favorites').deepUnpack();
-      for (const [fingerprint, alias] of Object.entries(favorites)) {
-          favoritesList.visible = true;
-
-          const row = new Adw.ActionRow({ title: alias });
-
-          const removeButton = new Gtk.Button({
-              iconName: 'user-trash-symbolic',
-              tooltipText: _('Remove from favorites'),
-              valign: Gtk.Align.CENTER,
-              cssClasses: ['circular', 'error', 'flat']
-          });
-          removeButton.connect('clicked', (..._) => {
-              this.settingsService.removeFavorite({fingerprint: fingerprint});
-              this.loadDiscoveredDevices();
-          });
-
-          row.add_suffix(removeButton);
-          favoritesList.append(row);
-      }
-    }
-
-    loadDiscoveredDevices() {
-        this.availableDevicesList.remove_all();
-        this.availableDevicesList.visible = false;
-
-        const devices = this.settingsService.getAvailableDevices();
-        for (const [fingerprint, alias] of Object.entries(devices)) {
-            this.availableDevicesList.visible = true;
-
-            const row = new Adw.ActionRow({ title: alias });
-
-            if (!this.settingsService.isFavorite(fingerprint)) {
-              const favoritesButton = new Gtk.Button({
-                  iconName: 'emblem-favorite-symbolic',
-                  tooltipText: _('Add to favorites'),
-                  valign: Gtk.Align.CENTER,
-                  cssClasses: ['circular', 'accent', 'flat']
-              })
-
-              favoritesButton.connect('clicked', (button) => {
-                  this.settingsService.addFavorite({fingerprint: fingerprint, alias: alias});
-                  button.set_visible(false);
-              });
-
-              row.add_suffix(favoritesButton);
-            }
-
-            this.availableDevicesList.append(row);
-        };
-    }
+    const favoritesPage = new FavoritesPage(this.settings);
+    window.add(favoritesPage);
+  }
 }
 
 
@@ -171,5 +81,89 @@ class GeneralSettingsPage extends Adw.PreferencesPage {
       .select_folder(this.window, null)
       .then(file => this.settings.set_string('storage-path', file.get_path()))
       .catch(e => print(e))
+  }
+});
+
+
+const FavoritesPage = GObject.registerClass({
+  GTypeName: 'FavoritesPage',
+  Template: GLib.uri_resolve_relative(
+    import.meta.url, './resources/ui/settings-page-favorites.ui',
+    GLib.UriFlags.NONE
+  ),
+  InternalChildren: [
+    'favoritesGroup',
+    'favoritesList',
+    'discoveredDevicesGroup',
+    'availableDevicesList',
+  ],
+},
+class FavoritesPage extends Adw.PreferencesPage {
+  constructor(settings) {
+    super({});
+    this.settings = settings;
+    this.settingsService = new SettingsService({ settings: this.settings });
+
+    this.settings.connect('changed::favorites', () => this.loadFavorites());
+    this.settings.connect('changed::discovered-devices', () => this.loadDiscoveredDevices());
+
+    this.loadFavorites();
+    this.loadDiscoveredDevices();
+  }
+
+  loadFavorites() {
+    this._favoritesList.remove_all();
+    this._favoritesList.visible = false;
+
+    const favorites = this.settings.get_value('favorites').deepUnpack();
+    for (const [fingerprint, alias] of Object.entries(favorites)) {
+        this._favoritesList.visible = true;
+
+        const row = new Adw.ActionRow({ title: alias });
+
+        const removeButton = new Gtk.Button({
+            iconName: 'user-trash-symbolic',
+            tooltipText: _('Remove from favorites'),
+            valign: Gtk.Align.CENTER,
+            cssClasses: ['circular', 'error', 'flat']
+        });
+        removeButton.connect('clicked', (..._) => {
+            this.settingsService.removeFavorite({fingerprint: fingerprint});
+            this.loadDiscoveredDevices();
+        });
+
+        row.add_suffix(removeButton);
+        this._favoritesList.append(row);
+    }
+  }
+
+  loadDiscoveredDevices() {
+      this._availableDevicesList.remove_all();
+      this._availableDevicesList.visible = false;
+
+      const devices = this.settingsService.getAvailableDevices();
+      for (const [fingerprint, alias] of Object.entries(devices)) {
+          this._availableDevicesList.visible = true;
+
+          const row = new Adw.ActionRow({ title: alias });
+
+          if (!this.settingsService.isFavorite(fingerprint)) {
+            const favoritesButton = new Gtk.Button({
+                iconName: 'emblem-favorite-symbolic',
+                tooltipText: _('Add to favorites'),
+                valign: Gtk.Align.CENTER,
+                cssClasses: ['circular', 'accent', 'flat']
+            })
+
+            favoritesButton.connect('clicked', (button) => {
+                this.settingsService.addFavorite({fingerprint: fingerprint, alias: alias});
+                button.set_visible(false);
+            });
+
+            row.add_suffix(favoritesButton);
+          }
+
+          this._availableDevicesList.append(row);
+      };
   }
 });

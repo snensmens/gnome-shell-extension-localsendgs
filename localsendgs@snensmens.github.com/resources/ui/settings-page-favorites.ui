@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="FavoritesPage" parent="AdwPreferencesPage">
+    <property name="title" translatable="yes">Favorites</property>
+    <property name="icon-name">emblem-favorite-symbolic</property>
+    <child>
+      <object class="AdwPreferencesGroup" id="favoritesGroup">
+        <property name="title" translatable="yes">Favorites</property>
+        <child>
+          <object class="GtkListBox" id="favoritesList">
+            <property name="selection-mode">0</property>
+            <property name="visible">false</property>
+            <style>
+              <class name="boxed-list"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="discoveredDevicesGroup">
+        <property name="title" translatable="yes">Discovered devices</property>
+        <child>
+          <object class="GtkListBox" id="availableDevicesList">
+            <property name="selection-mode">0</property>
+            <property name="visible">false</property>
+            <style>
+              <class name="boxed-list"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
