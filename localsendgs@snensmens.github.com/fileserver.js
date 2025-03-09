@@ -262,7 +262,7 @@ class Session {
   }
 
   getFile(id) {
-    for (const file in this.files) {
+    for (const file of this.files) {
       if (file.id === id) {
         return file;
       }
