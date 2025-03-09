@@ -7,136 +7,16 @@ import Gtk from 'gi://Gtk';
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 import SettingsService from './settings.js';
 
+Gio._promisify(Gtk.FileDialog.prototype, 'select_folder', 'select_folder_finish');
+
 
 export default class LocalSendGSPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         this.settings = this.getSettings();
-        this.settingsService = new SettingsService({
-          settings: this.settings
-        });
+        this.settingsService = new SettingsService({ settings: this.settings });
 
-        const generalPage = new Adw.PreferencesPage({
-            title: _('General'),
-            iconName: 'org.gnome.Settings-symbolic',
-        });
+        const generalPage = new GeneralSettingsPage(window, this.settings);
         window.add(generalPage);
-
-        const disclaimer = new Adw.PreferencesGroup({
-          title: _('Not all settings are available while the extension is active'),
-          description: _('Turn it off in the Quick Settings to access all settings'),
-          cssClasses: ['warning'],
-        })
-        generalPage.add(disclaimer);
-        this.settings.bind('extension-active', disclaimer, 'visible',
-          Gio.SettingsBindFlags.DEFAULT);
-
-        // General Settings
-        const generalGroup = new Adw.PreferencesGroup({ title: _('General') });
-        generalPage.add(generalGroup);
-        this.settings.bind('extension-active', generalGroup, 'sensitive',
-          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
-
-        const aliasRow = new Adw.EntryRow({ title: _('Alias') });
-        generalGroup.add(aliasRow);
-
-        const saveLocationRow = new Adw.ActionRow({
-            title: _('Save folder'),
-            css_classes: ['property'],
-        });
-        generalGroup.add(saveLocationRow);
-
-        const chooseDirectoryButton = new Gtk.Button({
-            valign: Gtk.Align.CENTER,
-            iconName: 'folder-open-symbolic',
-            cssClasses: ["flat"],
-        });
-        chooseDirectoryButton.connect('clicked', (..._) => {
-            const dialog = new Gtk.FileDialog();
-            dialog.select_folder(window, null, (_, result) => {
-                const file = dialog.select_folder_finish(result);
-                this.settings.set_string('storage-path', file.get_path());
-            });
-        });
-        saveLocationRow.add_suffix(chooseDirectoryButton);
-
-
-        // Extension related Settings
-        const extensionGroup = new Adw.PreferencesGroup({ title: _('Extension') });
-        generalPage.add(extensionGroup);
-
-        const showIconRow = new Adw.SwitchRow({ title: _('Show icon in topbar when enabled') });
-        extensionGroup.add(showIconRow);
-
-
-        // Receiving related Settings
-        const receiveGroup = new Adw.PreferencesGroup({ title: _('Receiving') });
-        generalPage.add(receiveGroup);
-        this.settings.bind('extension-active', receiveGroup, 'sensitive',
-          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
-
-        const quickSavePolicyRow = new Adw.ComboRow({
-            title: _('QuickSave'),
-            subtitle: _('Accept incoming files without asking'),
-            model: Gtk.StringList.new([
-              _('never'),
-              _('favorits only'),
-              _('always')
-            ]),
-        });
-        receiveGroup.add(quickSavePolicyRow);
-
-
-        // Security related Settings
-        const securityGroup = new Adw.PreferencesGroup({ title: _('Security') });
-        generalPage.add(securityGroup);
-        this.settings.bind('extension-active', securityGroup, 'sensitive',
-          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
-
-        const pinPolicyRow = new Adw.ComboRow({
-            title: _('Require PIN to receive files'),
-            model: Gtk.StringList.new([
-              _('never'),
-              _('if not a favourite'),
-              _('always')
-            ]),
-        });
-        securityGroup.add(pinPolicyRow);
-
-        const pinRow = new Adw.EntryRow({ title: _('PIN') });
-        securityGroup.add(pinRow);
-
-        const acceptPolicyRow = new Adw.ComboRow({
-            title: _('Allow sending files for'),
-            model: Gtk.StringList.new([
-              _('everyone'),
-              _('favorites')
-            ]),
-        });
-        securityGroup.add(acceptPolicyRow);
-
-        // Advanced Settings
-        const advancedMulitcastGroup = new Adw.PreferencesGroup({
-            title: _('Advanced'),
-            description: _('Onyl change this values if you know what you are doing'),
-        });
-        generalPage.add(advancedMulitcastGroup);
-        this.settings.bind('extension-active', advancedMulitcastGroup, 'sensitive',
-          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
-
-        const multicastAddressRow = new Adw.EntryRow({ title: _('Multicast group') });
-        advancedMulitcastGroup.add(multicastAddressRow);
-
-        const multicastPortRow = new Adw.EntryRow({ title: _('Multicast port') });
-        advancedMulitcastGroup.add(multicastPortRow);
-
-        const advancedServerGroup = new Adw.PreferencesGroup();
-        generalPage.add(advancedServerGroup);
-        this.settings.bind('extension-active', advancedServerGroup, 'sensitive',
-          Gio.SettingsBindFlags.DEFAULT|Gio.SettingsBindFlags.INVERT_BOOLEAN);
-
-        const serverPortRow = new Adw.EntryRow({ title: _('Fileserver-port') });
-        advancedServerGroup.add(serverPortRow);
-
 
         const favoritesPage = new Adw.PreferencesPage({
             title: _('Favorites'),
@@ -163,17 +43,6 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
             visible: false,
         });
         discoveredDevicesGroup.add(this.availableDevicesList);
-
-        this.settings.bind('alias', aliasRow, 'text', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('storage-path', saveLocationRow, 'subtitle', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('show-icon', showIconRow, 'active', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('quick-save-policy', quickSavePolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('pin-policy', pinPolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('pin', pinRow, 'text', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('accept-policy', acceptPolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('mc-address', multicastAddressRow, 'text', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('mc-port', multicastPortRow, 'text', Gio.SettingsBindFlags.DEFAULT);
-        this.settings.bind('fileserver-port', serverPortRow, 'text', Gio.SettingsBindFlags.DEFAULT);
 
         this.settings.connect('changed::favorites', (..._) => {
             this.loadFavorites(favoritesList);
@@ -243,3 +112,64 @@ export default class LocalSendGSPreferences extends ExtensionPreferences {
         };
     }
 }
+
+
+const GeneralSettingsPage = GObject.registerClass({
+  GTypeName: 'GeneralSettingsPage',
+  Template: GLib.uri_resolve_relative(
+    import.meta.url, './resources/ui/settings-page-general.ui',
+    GLib.UriFlags.NONE
+  ),
+  InternalChildren: [
+    'disclaimer',
+    'generalGroup',
+    'aliasRow',
+    'saveLocationRow',
+    'extensionGroup',
+    'showIconRow',
+    'receiveGroup',
+    'quickSavePolicyRow',
+    'securityGroup',
+    'pinPolicyRow',
+    'pinRow',
+    'acceptPolicyRow',
+    'advancedMulitcastGroup',
+    'multicastAddressRow',
+    'multicastPortRow',
+    'advancedServerGroup',
+    'serverPortRow',
+    'loggingRow',
+  ],
+},
+class GeneralSettingsPage extends Adw.PreferencesPage {
+  constructor(window, settings) {
+    super({});
+    this.window = window;
+    this.settings = settings;
+
+    this.settings.bind('extension-active', this._disclaimer, 'visible', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('extension-active', this._generalGroup, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+    this.settings.bind('extension-active', this._receiveGroup, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+    this.settings.bind('extension-active', this._securityGroup, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+    this.settings.bind('extension-active', this._advancedMulitcastGroup, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+    this.settings.bind('extension-active', this._advancedServerGroup, 'sensitive', Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+    this.settings.bind('alias', this._aliasRow, 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('storage-path', this._saveLocationRow, 'subtitle', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('show-icon', this._showIconRow, 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('quick-save-policy', this._quickSavePolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('pin-policy', this._pinPolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('pin', this._pinRow, 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('accept-policy', this._acceptPolicyRow, 'selected', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('mc-address', this._multicastAddressRow, 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('mc-port', this._multicastPortRow, 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('fileserver-port', this._serverPortRow, 'text', Gio.SettingsBindFlags.DEFAULT);
+  }
+
+  onChangeFolderClicked() {
+    new Gtk.FileDialog()
+      .select_folder(this.window, null)
+      .then(file => this.settings.set_string('storage-path', file.get_path()))
+      .catch(e => print(e))
+  }
+});

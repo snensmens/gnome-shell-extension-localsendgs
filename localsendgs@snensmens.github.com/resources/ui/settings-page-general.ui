@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="GeneralSettingsPage" parent="AdwPreferencesPage">
+    <property name="title" translatable="yes">General</property>
+    <property name="icon-name">settings-symbolic</property>
+    <child>
+      <object class="AdwPreferencesGroup" id="disclaimer">
+        <property name="title" translatable="yes">Not all settings are available while the extension is active</property>
+        <property name="description" translatable="yes">Turn it off in the Quick Settings to access all settings</property>
+        <style>
+          <class name="warning"/>
+        </style>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="generalGroup">
+        <property name="title" translatable="yes">General</property>
+        <child>
+          <object class="AdwEntryRow" id="aliasRow">
+            <property name="title" translatable="yes">Alias</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="saveLocationRow">
+            <property name="title" translatable="yes">Save folder</property>
+            <style>
+              <class name="property"/>
+            </style>
+            <child type="suffix">
+              <object class="GtkButton">
+                <property name="valign">3</property>
+                <property name="icon-name">folder-open-symbolic</property>
+                <signal name="clicked" handler="onChangeFolderClicked"/>
+                <style>
+                  <class name="flat"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="extensionGroup">
+        <property name="title" translatable="yes">Extension</property>
+        <child>
+          <object class="AdwSwitchRow" id="showIconRow">
+            <property name="title" translatable="yes">Show icon in topbar when enabled</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="receiveGroup">
+        <property name="title" translatable="yes">Receiving</property>
+        <child>
+          <object class="AdwComboRow" id="quickSavePolicyRow">
+            <property name="title" translatable="yes">QuickSave</property>
+            <property name="subtitle" translatable="yes">Accept incoming files without asking</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">never</item>
+                  <item translatable="yes">favorites only</item>
+                  <item translatable="yes">always</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="securityGroup">
+        <property name="title" translatable="yes">Security</property>
+        <child>
+          <object class="AdwComboRow" id="pinPolicyRow">
+            <property name="title" translatable="yes">Require PIN to receive files</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">never</item>
+                  <item translatable="yes">if not a favourite</item>
+                  <item translatable="yes">always</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwEntryRow" id="pinRow">
+            <property name="title" translatable="yes">PIN</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwComboRow" id="acceptPolicyRow">
+            <property name="title" translatable="yes">Allow sending files for</property>
+            <property name="model">
+              <object class="GtkStringList">
+                <items>
+                  <item translatable="yes">everyone</item>
+                  <item translatable="yes">favorites</item>
+                </items>
+              </object>
+            </property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="advancedMulitcastGroup">
+        <property name="title" translatable="yes">Advanced</property>
+        <property name="description" translatable="yes">Onyl change this values if you know what you are doing</property>
+        <child>
+          <object class="AdwEntryRow" id="multicastAddressRow">
+            <property name="title" translatable="yes">Multicast group</property>
+          </object>
+        </child>
+        <child>
+          <object class="AdwEntryRow" id="multicastPortRow">
+            <property name="title" translatable="yes">Multicast port</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="advancedServerGroup">
+        <child>
+          <object class="AdwEntryRow" id="serverPortRow">
+            <property name="title" translatable="yes">Fileserver port</property>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="AdwPreferencesGroup">
+        <child>
+          <object class="AdwSwitchRow" id="loggingRow">
+            <property name="title" translatable="yes">Logging</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
