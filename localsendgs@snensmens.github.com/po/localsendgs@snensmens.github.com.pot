@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LocalSendGS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-08 19:17+0100\n"
+"POT-Creation-Date: 2025-03-09 15:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: extension.js:130
+#: extension.js:131
 msgid "Favorites only"
 msgstr ""
 
@@ -76,118 +76,130 @@ msgstr ""
 msgid "The sender has canceled the transfer"
 msgstr ""
 
-#: prefs.js:19 prefs.js:34
-msgid "General"
-msgstr ""
-
-#: prefs.js:25
-msgid "Not all settings are available while the extension is active"
-msgstr ""
-
-#: prefs.js:26
-msgid "Turn it off in the Quick Settings to access all settings"
-msgstr ""
-
-#: prefs.js:39
-msgid "Alias"
-msgstr ""
-
-#: prefs.js:43
-msgid "Save folder"
-msgstr ""
-
-#: prefs.js:64
-msgid "Extension"
-msgstr ""
-
-#: prefs.js:67
-msgid "Show icon in topbar when enabled"
-msgstr ""
-
-#: prefs.js:72
-msgid "Receiving"
-msgstr ""
-
-#: prefs.js:78
-msgid "QuickSave"
-msgstr ""
-
-#: prefs.js:79
-msgid "Accept incoming files without asking"
-msgstr ""
-
-#: prefs.js:81 prefs.js:98
-msgid "never"
-msgstr ""
-
-#: prefs.js:82
-msgid "favorits only"
-msgstr ""
-
-#: prefs.js:83 prefs.js:100
-msgid "always"
-msgstr ""
-
-#: prefs.js:90
-msgid "Security"
-msgstr ""
-
-#: prefs.js:96
-msgid "Require PIN to receive files"
-msgstr ""
-
-#: prefs.js:99
-msgid "if not a favourite"
-msgstr ""
-
-#: prefs.js:105
-msgid "PIN"
-msgstr ""
-
-#: prefs.js:109
-msgid "Allow sending files for"
-msgstr ""
-
-#: prefs.js:111
-msgid "everyone"
-msgstr ""
-
-#: prefs.js:112
-msgid "favorites"
-msgstr ""
-
-#: prefs.js:119
-msgid "Advanced"
-msgstr ""
-
-#: prefs.js:120
-msgid "Onyl change this values if you know what you are doing"
-msgstr ""
-
-#: prefs.js:126
-msgid "Multicast group"
-msgstr ""
-
-#: prefs.js:129
-msgid "Multicast port"
-msgstr ""
-
-#: prefs.js:137
-msgid "Fileserver-port"
-msgstr ""
-
-#: prefs.js:142 prefs.js:147
-msgid "Favorites"
-msgstr ""
-
-#: prefs.js:157
-msgid "Discovered devices"
-msgstr ""
-
-#: prefs.js:202
+#: prefs.js:128
 msgid "Remove from favorites"
 msgstr ""
 
-#: prefs.js:229
+#: prefs.js:155
 msgid "Add to favorites"
+msgstr ""
+
+#: resources/ui/settings-page-favorites.ui:5
+#: resources/ui/settings-page-favorites.ui:9
+msgid "Favorites"
+msgstr ""
+
+#: resources/ui/settings-page-favorites.ui:23
+msgid "Discovered devices"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:5
+#: resources/ui/settings-page-general.ui:18
+msgid "General"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:9
+msgid "Not all settings are available while the extension is active"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:10
+msgid "Turn it off in the Quick Settings to access all settings"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:21
+msgid "Alias"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:26
+msgid "Save folder"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:46
+msgid "Extension"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:49
+msgid "Show icon in topbar when enabled"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:54
+msgid "Enable on login"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:61
+msgid "Receiving"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:64
+msgid "QuickSave"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:65
+msgid "Accept incoming files without asking"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:69
+#: resources/ui/settings-page-general.ui:88
+msgid "never"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:70
+msgid "favorites only"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:71
+#: resources/ui/settings-page-general.ui:90
+msgid "always"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:81
+msgid "Security"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:84
+msgid "Require PIN to receive files"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:89
+msgid "if not a favourite"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:98
+msgid "PIN"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:103
+msgid "Allow sending files for"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:107
+msgid "everyone"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:108
+msgid "favorites"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:118
+msgid "Advanced"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:119
+msgid "Onyl change this values if you know what you are doing"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:122
+msgid "Multicast group"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:127
+msgid "Multicast port"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:136
+msgid "Fileserver port"
+msgstr ""
+
+#: resources/ui/settings-page-general.ui:145
+msgid "Logging"
 msgstr ""

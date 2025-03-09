@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-08 19:17+0100\n"
+"POT-Creation-Date: 2025-03-09 15:31+0100\n"
 "PO-Revision-Date: 2025-02-23 15:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:130
+#: extension.js:131
 msgid "Favorites only"
 msgstr "Nur Favoriten"
 
@@ -75,121 +75,134 @@ msgstr "Übertragung abgebrochen"
 msgid "The sender has canceled the transfer"
 msgstr "Der Sender hat die Übertragung abgebrochen"
 
-#: prefs.js:19 prefs.js:34
-msgid "General"
-msgstr "Allgemein"
-
-#: prefs.js:25
-msgid "Not all settings are available while the extension is active"
-msgstr "Nicht alle Einstellungen sind verfügbar während die Erweiterung aktiv ist"
-
-#: prefs.js:26
-msgid "Turn it off in the Quick Settings to access all settings"
-msgstr "Deaktiviere die Erweiterung um auf alle Einstellungen zuzugreifen"
-
-#: prefs.js:39
-msgid "Alias"
-msgstr "Alias"
-
-#: prefs.js:43
-msgid "Save folder"
-msgstr "Speicherort"
-
-#: prefs.js:64
-msgid "Extension"
-msgstr "Erweiterung"
-
-#: prefs.js:67
-msgid "Show icon in topbar when enabled"
-msgstr "Icon in Kopfleiste anzeigen wenn aktiv"
-
-#: prefs.js:72
-msgid "Receiving"
-msgstr "Empfangen"
-
-#: prefs.js:78
-msgid "QuickSave"
-msgstr "QuickSave"
-
-#: prefs.js:79
-msgid "Accept incoming files without asking"
-msgstr "Dateifreigaben annehmen ohne zu fragen"
-
-#: prefs.js:81 prefs.js:98
-msgid "never"
-msgstr "niemals"
-
-#: prefs.js:82
-msgid "favorits only"
-msgstr "nur Favoriten"
-
-#: prefs.js:83 prefs.js:100
-msgid "always"
-msgstr "immer"
-
-#: prefs.js:90
-msgid "Security"
-msgstr "Sicherheit"
-
-#: prefs.js:96
-msgid "Require PIN to receive files"
-msgstr "PIN verlangen um Dateien anzunehmen"
-
-#: prefs.js:99
-msgid "if not a favourite"
-msgstr "wenn kein Favorit"
-
-#: prefs.js:105
-msgid "PIN"
-msgstr "PIN"
-
-#: prefs.js:109
-msgid "Allow sending files for"
-msgstr "Dateifreigabe erlauben für"
-
-#: prefs.js:111
-msgid "everyone"
-msgstr "Jeden"
-
-#: prefs.js:112
-msgid "favorites"
-msgstr "Favoriten"
-
-#: prefs.js:119
-msgid "Advanced"
-msgstr "Erweitert"
-
-#: prefs.js:120
-msgid "Onyl change this values if you know what you are doing"
-msgstr "Verändere diese Werte nur wenn du weißt was du tust"
-
-#: prefs.js:126
-msgid "Multicast group"
-msgstr "Multicast Gruppe"
-
-#: prefs.js:129
-msgid "Multicast port"
-msgstr "Multicast Port"
-
-#: prefs.js:137
-msgid "Fileserver-port"
-msgstr "Dateiserver Port"
-
-#: prefs.js:142 prefs.js:147
-msgid "Favorites"
-msgstr "Favoriten"
-
-#: prefs.js:157
-msgid "Discovered devices"
-msgstr "Entdeckte Geräte"
-
-#: prefs.js:202
+#: prefs.js:128
 msgid "Remove from favorites"
 msgstr "Von Favoriten entfernen"
 
-#: prefs.js:229
+#: prefs.js:155
 msgid "Add to favorites"
 msgstr "Zu Favoriten hinzufügen"
+
+#: resources/ui/settings-page-favorites.ui:5
+#: resources/ui/settings-page-favorites.ui:9
+msgid "Favorites"
+msgstr "Favoriten"
+
+#: resources/ui/settings-page-favorites.ui:23
+msgid "Discovered devices"
+msgstr "Entdeckte Geräte"
+
+#: resources/ui/settings-page-general.ui:5
+#: resources/ui/settings-page-general.ui:18
+msgid "General"
+msgstr "Allgemein"
+
+#: resources/ui/settings-page-general.ui:9
+msgid "Not all settings are available while the extension is active"
+msgstr "Nicht alle Einstellungen sind verfügbar während die Erweiterung aktiv ist"
+
+#: resources/ui/settings-page-general.ui:10
+msgid "Turn it off in the Quick Settings to access all settings"
+msgstr "Deaktiviere die Erweiterung um auf alle Einstellungen zuzugreifen"
+
+#: resources/ui/settings-page-general.ui:21
+msgid "Alias"
+msgstr "Alias"
+
+#: resources/ui/settings-page-general.ui:26
+msgid "Save folder"
+msgstr "Speicherort"
+
+#: resources/ui/settings-page-general.ui:46
+msgid "Extension"
+msgstr "Erweiterung"
+
+#: resources/ui/settings-page-general.ui:49
+msgid "Show icon in topbar when enabled"
+msgstr "Icon in Kopfleiste anzeigen wenn aktiv"
+
+#: resources/ui/settings-page-general.ui:54
+msgid "Enable on login"
+msgstr "Beim anmelden aktivieren"
+
+#: resources/ui/settings-page-general.ui:61
+msgid "Receiving"
+msgstr "Empfangen"
+
+#: resources/ui/settings-page-general.ui:64
+msgid "QuickSave"
+msgstr "QuickSave"
+
+#: resources/ui/settings-page-general.ui:65
+msgid "Accept incoming files without asking"
+msgstr "Dateifreigaben annehmen ohne zu fragen"
+
+#: resources/ui/settings-page-general.ui:69
+#: resources/ui/settings-page-general.ui:88
+msgid "never"
+msgstr "niemals"
+
+#: resources/ui/settings-page-general.ui:70
+msgid "favorites only"
+msgstr "nur Favoriten"
+
+#: resources/ui/settings-page-general.ui:71
+#: resources/ui/settings-page-general.ui:90
+msgid "always"
+msgstr "immer"
+
+#: resources/ui/settings-page-general.ui:81
+msgid "Security"
+msgstr "Sicherheit"
+
+#: resources/ui/settings-page-general.ui:84
+msgid "Require PIN to receive files"
+msgstr "PIN verlangen um Dateien anzunehmen"
+
+#: resources/ui/settings-page-general.ui:89
+msgid "if not a favourite"
+msgstr "wenn kein Favorit"
+
+#: resources/ui/settings-page-general.ui:98
+msgid "PIN"
+msgstr "PIN"
+
+#: resources/ui/settings-page-general.ui:103
+msgid "Allow sending files for"
+msgstr "Dateifreigabe erlauben für"
+
+#: resources/ui/settings-page-general.ui:107
+msgid "everyone"
+msgstr "Jeden"
+
+#: resources/ui/settings-page-general.ui:108
+msgid "favorites"
+msgstr "Favoriten"
+
+#: resources/ui/settings-page-general.ui:118
+msgid "Advanced"
+msgstr "Erweitert"
+
+#: resources/ui/settings-page-general.ui:119
+msgid "Onyl change this values if you know what you are doing"
+msgstr "Verändere diese Werte nur wenn du weißt was du tust"
+
+#: resources/ui/settings-page-general.ui:122
+msgid "Multicast group"
+msgstr "Multicast Gruppe"
+
+#: resources/ui/settings-page-general.ui:127
+msgid "Multicast port"
+msgstr "Multicast Port"
+
+#: resources/ui/settings-page-general.ui:136
+#, fuzzy
+msgid "Fileserver port"
+msgstr "Dateiserver Port"
+
+#: resources/ui/settings-page-general.ui:145
+msgid "Logging"
+msgstr "Loggen"
 
 #~ msgid "Settings"
 #~ msgstr "Einstellungen"
