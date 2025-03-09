@@ -182,7 +182,7 @@ export default class LocalSendGSExtension extends Extension {
       alias: this.settingsService.getAlias(),
       version: PROTOCOL_VERSION,
       deviceModel: "Linux",
-      deviceType: "headless",
+      deviceType: "computer",
       fingerprint: this.settingsService.getFingerprint(),
       port: Number(this.settingsService.getFileServerPort()),
       protocol: "https",
@@ -257,10 +257,13 @@ export default class LocalSendGSExtension extends Extension {
     const device = JSON.parse(new TextDecoder().decode(bytes.toArray()));
 
     print(`discovered new device ${device.alias}`);
+    print(JSON.stringify(device, null, 2))
 
-    this.settingsService.addAvailableDevice({
-        alias: device.alias,
-        fingerprint: device.fingerprint
+    this.settingsService.addDiscoveredDevice({
+      alias: device.alias,
+      fingerprint: device.fingerprint,
+      type: device.deviceType,
+      model: device.deviceModel,
     });
 
     this.localSendClient.registerDeviceAt({
@@ -269,8 +272,8 @@ export default class LocalSendGSExtension extends Extension {
       protocol: device.protocol,
       device: this.device,
     })
-      .then(() => print(`registration successful`))
-      .catch(e => print(`registering failed: ${e}`));
+    .then(() => print(`registration successful`))
+    .catch(e => print(`registering failed: ${e}`));
 
     return GLib.SOURCE_CONTINUE;
   }

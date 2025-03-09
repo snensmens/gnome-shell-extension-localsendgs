@@ -117,55 +117,103 @@ class FavoritesPage extends Adw.PreferencesPage {
     this._favoritesList.remove_all();
     this._favoritesList.visible = false;
 
-    const favorites = this.settings.get_value('favorites').deepUnpack();
-    for (const [fingerprint, alias] of Object.entries(favorites)) {
-        this._favoritesList.visible = true;
+    this.settingsService.getFavorites().forEach((fav) => {
+      this._favoritesList.visible = true;
 
-        const row = new Adw.ActionRow({ title: alias });
-
-        const removeButton = new Gtk.Button({
-            iconName: 'user-trash-symbolic',
-            tooltipText: _('Remove from favorites'),
-            valign: Gtk.Align.CENTER,
-            cssClasses: ['circular', 'error', 'flat']
-        });
-        removeButton.connect('clicked', (..._) => {
-            this.settingsService.removeFavorite({fingerprint: fingerprint});
+      const entry = new DeviceEntry({
+        device: fav,
+        button: {
+          iconName: 'user-trash-symbolic',
+          tooltipText: _('Remove from favorites'),
+          style: 'destructive-action',
+          onClicked: () => {
+            this.settingsService.removeFavorite(fav.fingerprint);
             this.loadDiscoveredDevices();
-        });
+          }
+        }
+      });
 
-        row.add_suffix(removeButton);
-        this._favoritesList.append(row);
-    }
+      this._favoritesList.append(entry);
+    });
   }
 
   loadDiscoveredDevices() {
-      this._availableDevicesList.remove_all();
-      this._availableDevicesList.visible = false;
+    this._availableDevicesList.remove_all();
+    this._availableDevicesList.visible = false;
 
-      const devices = this.settingsService.getAvailableDevices();
-      for (const [fingerprint, alias] of Object.entries(devices)) {
-          this._availableDevicesList.visible = true;
+    this.settingsService.getDiscoveredDevices().forEach((device) => {
+      this._availableDevicesList.visible = true;
 
-          const row = new Adw.ActionRow({ title: alias });
-
-          if (!this.settingsService.isFavorite(fingerprint)) {
-            const favoritesButton = new Gtk.Button({
-                iconName: 'emblem-favorite-symbolic',
-                tooltipText: _('Add to favorites'),
-                valign: Gtk.Align.CENTER,
-                cssClasses: ['circular', 'accent', 'flat']
-            })
-
-            favoritesButton.connect('clicked', (button) => {
-                this.settingsService.addFavorite({fingerprint: fingerprint, alias: alias});
-                button.set_visible(false);
+      const entry = new DeviceEntry({
+        device: device,
+        button: this.settingsService.isFavorite(device.fingerprint) ? null : {
+          iconName: 'emblem-favorite-symbolic',
+          tooltipText: _('Add to favorites'),
+          style: 'accent',
+          onClicked: () => {
+            this.settingsService.addFavorite({
+              fingerprint: device.fingerprint,
+              alias: device.alias,
+              type: device.type,
+              model: device.model,
             });
-
-            row.add_suffix(favoritesButton);
+            this.loadDiscoveredDevices();
           }
+        }
+      });
 
-          this._availableDevicesList.append(row);
-      };
+      this._availableDevicesList.append(entry);
+    });
+  }
+});
+
+
+const DeviceEntry = GObject.registerClass({
+  GTypeName: 'DeviceEntry',
+  Template: GLib.uri_resolve_relative(
+    import.meta.url, './resources/ui/settings-device-entry.ui',
+    GLib.UriFlags.NONE
+  ),
+  InternalChildren: [
+    'icon',
+    'button'
+  ]
+},
+class DeviceEntry extends Adw.ActionRow {
+  constructor({ device, button }) {
+    super({
+      title: device.alias,
+      subtitle: device.model ?? ''
+    });
+
+    this._icon.iconName = this.getIconForDevice({
+      type: device.type,
+      model: device.model
+    });
+
+    if (button) {
+      this._button.visible = true;
+      this._button.iconName = button.iconName;
+      this._button.tooltipText = button.tooltipText;
+      this._button.add_css_class(button.style);
+      this._button.connect('clicked', () => button.onClicked());
+    }
+  }
+
+  getIconForDevice({type, model}) {
+    if (model === 'iPhone') {
+      return 'phone-apple-iphone-symbolic';
+    }
+    if (model === 'iPad') {
+      return 'tablet-symbolic';
+    }
+    if (type === 'mobile') {
+      return 'phone-symbolic';
+    }
+    if (type === 'server' || type === 'headless') {
+      return 'folder-shell-symbolic';
+    }
+
+    return 'computer-symbolic';
   }
 });

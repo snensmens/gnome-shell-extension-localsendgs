@@ -63,38 +63,63 @@ export default class SettingsService {
   }
 
   isFavorite(fingerprint) {
-      const favorites = this.getFavorites();
+    const favorites = this.getFavorites();
 
-      return favorites[fingerprint] !== undefined;
+    return favorites.some(fav => fav.fingerprint === fingerprint);
   }
 
-  addFavorite({fingerprint, alias}) {
-      const favorites = this._settings.get_value('favorites').deepUnpack();
-      favorites[fingerprint] = alias;
+  addFavorite({ fingerprint, alias, type, model }) {
+    const favorites = this._settings.get_value('favorites').deepUnpack();
 
-      this._settings.set_value('favorites', GLib.Variant.new('a{ss}', favorites));
+    if (favorites.some(fav => fav.fingerprint === fingerprint)) {
+      return
+    }
+
+    favorites.push({
+      alias: alias,
+      fingerprint: fingerprint,
+      type: type,
+      model: model
+    });
+
+    this._settings.set_value('favorites', GLib.Variant.new('aa{ss}', favorites));
   }
 
-  removeFavorite({fingerprint}) {
-      const favorites = this._settings.get_value('favorites').deepUnpack();
-      delete favorites[fingerprint];
+  removeFavorite(fingerprint) {
+    const favorites = this._settings.get_value('favorites').deepUnpack();
 
-      this._settings.set_value('favorites', GLib.Variant.new('a{ss}', favorites));
+    this._settings.set_value(
+      'favorites',
+      GLib.Variant.new(
+        'aa{ss}',
+        favorites.filter(fav => fav.fingerprint !== fingerprint)
+      )
+    );
   }
 
-  getAvailableDevices() {
-      return this._settings.get_value('discovered-devices').deepUnpack();
+  getDiscoveredDevices() {
+    return this._settings.get_value('discovered-devices').deepUnpack();
   }
 
-  addAvailableDevice({alias, fingerprint}) {
-      const devices = this.getAvailableDevices();
-      devices[fingerprint] = alias;
+  addDiscoveredDevice({alias, fingerprint, type, model}) {
+    const devices = this.getDiscoveredDevices();
 
-      this._settings.set_value('discovered-devices', new GLib.Variant('a{ss}', devices));
+    if (devices.some(device => device.fingerprint === fingerprint)) {
+      return
+    }
+
+    devices.push({
+      alias: alias,
+      fingerprint: fingerprint,
+      type: type,
+      model: model
+    });
+
+    this._settings.set_value('discovered-devices', new GLib.Variant('aa{ss}', devices));
   }
 
   clearAvailableDevices() {
-    this._settings.set_value('discovered-devices', new GLib.Variant('a{ss}', {}));
+    this._settings.set_value('discovered-devices', new GLib.Variant('aa{ss}', []));
   }
 
   getEnableOnLogin() {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="localsendgs@snensmens.github.com">
+  <requires lib="gtk" version="4.0"/>
+  <template class="DeviceEntry" parent="AdwActionRow">
+    <child type="prefix">
+      <object class="GtkImage" id="icon"></object>
+    </child>
+    <child type="suffix">
+      <object class="GtkButton" id="button">
+        <property name="valign">3</property>
+        <property name="visible">false</property>
+        <style>
+          <class name="flat"/>
+          <class name="circular"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

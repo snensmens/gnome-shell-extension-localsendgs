@@ -53,12 +53,12 @@
       <default>"53318"</default>
     </key>
 
-    <key name="favorites" type="a{ss}">
-      <default>{}</default>
+    <key name="favorites" type="aa{ss}">
+      <default>[]</default>
     </key>
 
-    <key name="discovered-devices" type="a{ss}">
-      <default>{}</default>
+    <key name="discovered-devices" type="aa{ss}">
+      <default>[]</default>
     </key>
   </schema>
 </schemalist>
