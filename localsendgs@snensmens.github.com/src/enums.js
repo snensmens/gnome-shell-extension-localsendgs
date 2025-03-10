@@ -1,3 +1,9 @@
+export const CryptoTool = {
+  OPENSSL: 0,
+  CERTTOOL: 1
+}
+
+
 export const TransferState = {
     OPEN: 0,
     FINISHED: 1,

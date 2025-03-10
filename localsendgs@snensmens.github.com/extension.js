@@ -31,9 +31,9 @@ import NotificationService from './src/notifications.js';
 import SettingsService from './src/settings.js';
 import { LocalSendClient } from './src/client.js';
 import { FileServer } from './src/fileserver.js';
-import { AcceptPolicy } from './src/enums.js';
+import { AcceptPolicy, CryptoTool } from './src/enums.js';
 import { createMulticastSocket, getLocalIpAddress } from './src/networking.js';
-import { createPrivateKey, createCertificate } from './src/security.js';
+import { createPrivateKey, createCertificate, hasOpensslInstalled, hasCerttoolInstalled } from './src/security.js';
 
 
 const PROTOCOL_VERSION = '2.1';
@@ -153,23 +153,38 @@ export default class LocalSendGSExtension extends Extension {
     this.settings.disconnect(this.showIconHandlerId);
     this.settings.disconnect(this.toggleCheckedHandlerId);
     this.settings = null;
-    
+
     this.showIconHandlerId = null;
     this.toggleCheckedHandlerId = null;
   }
 
   async setup() {
-    await createPrivateKey({
-      path: `${this.path}/resources/key.pem`,
-      cancellable: null
-    });
+    if (await hasOpensslInstalled(null)) {
+      await createPrivateKey({
+        cryptoTool: CryptoTool.OPENSSL,
+        path: this.path,
+        cancellable: null
+      });
 
-    await createCertificate({
-      path: `${this.path}/resources/cert.pem`,
-      key: `${this.path}/resources/key.pem`,
-      template: `${this.path}/resources/cert-template.cfg`,
-      cancellable: null
-    });
+      await createCertificate({
+        cryptoTool: CryptoTool.OPENSSL,
+        path: this.path,
+        cancellable: null
+      });
+    }
+    else if (await hasCerttoolInstalled(null)) {
+      await createPrivateKey({
+        cryptoTool: CryptoTool.CERTTOOL,
+        path: this.path,
+        cancellable: null
+      });
+
+      await createCertificate({
+        cryptoTool: CryptoTool.CERTTOOL,
+        path: this.path,
+        cancellable: null
+      });
+    }
 
     const ipAddress = await getLocalIpAddress();
     if (ipAddress === null) {
