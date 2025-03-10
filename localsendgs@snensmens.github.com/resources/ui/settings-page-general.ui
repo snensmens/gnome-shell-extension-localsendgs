@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <template class="GeneralSettingsPage" parent="AdwPreferencesPage">
     <property name="title" translatable="yes">General</property>
-    <property name="icon-name">settings-symbolic</property>
+    <property name="icon-name">preferences-system-symbolic</property>
     <child>
       <object class="AdwPreferencesGroup" id="disclaimer">
         <property name="title" translatable="yes">Not all settings are available while the extension is active</property>
