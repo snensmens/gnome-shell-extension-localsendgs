@@ -27,13 +27,13 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
 import { QuickToggle, SystemIndicator } from 'resource:///org/gnome/shell/ui/quickSettings.js';
 
-import NotificationService from './notifications.js';
-import SettingsService from './settings.js';
-import { LocalSendClient } from './client.js';
-import { FileServer } from './fileserver.js';
-import { AcceptPolicy } from './enums.js';
-import { createMulticastSocket, getLocalIpAddress } from './networking.js';
-import { createPrivateKey, createCertificate } from './security.js';
+import NotificationService from './src/notifications.js';
+import SettingsService from './src/settings.js';
+import { LocalSendClient } from './src/client.js';
+import { FileServer } from './src/fileserver.js';
+import { AcceptPolicy } from './src/enums.js';
+import { createMulticastSocket, getLocalIpAddress } from './src/networking.js';
+import { createPrivateKey, createCertificate } from './src/security.js';
 
 
 const PROTOCOL_VERSION = '2.1';

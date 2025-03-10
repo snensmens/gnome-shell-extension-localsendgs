@@ -5,7 +5,7 @@ import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 
 import { ExtensionPreferences, gettext as _ } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-import SettingsService from './settings.js';
+import SettingsService from './src/settings.js';
 
 Gio._promisify(Gtk.FileDialog.prototype, 'select_folder', 'select_folder_finish');
 
