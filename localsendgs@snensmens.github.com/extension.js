@@ -153,7 +153,9 @@ export default class LocalSendGSExtension extends Extension {
     this.settings.disconnect(this.showIconHandlerId);
     this.settings.disconnect(this.toggleCheckedHandlerId);
     this.settings = null;
+    
     this.showIconHandlerId = null;
+    this.toggleCheckedHandlerId = null;
   }
 
   async setup() {
