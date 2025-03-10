@@ -7,13 +7,11 @@ Gio._promisify(Soup.Session.prototype, "send_and_read_async", "send_and_read_fin
 
 export class LocalSendClient {
   constructor() {
-    print(`creating new LocalSendClient`)
     this._session = new Soup.Session();
   }
 
   async registerDeviceAt({address, port, protocol, device}) {
     const registerEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/register`;
-    print(`register self at ${registerEndpoint} with ${JSON.stringify(device)}`);
 
     await this._sendPostRequest({
       endpoint: registerEndpoint,
@@ -23,7 +21,6 @@ export class LocalSendClient {
 
   async sendCancelRequest({ address, port, protocol, sessionId }) {
     const cancelEndpoint = `${protocol}://${address}:${port}/api/localsend/v2/cancel?sessionId=${sessionId}`;
-    print(`sending cancel request to ${cancelEndpoint}`);
 
     await this._sendPostRequest({ endpoint: cancelEndpoint });
   }

@@ -82,7 +82,7 @@ class GeneralSettingsPage extends Adw.PreferencesPage {
     new Gtk.FileDialog()
       .select_folder(this.window, null)
       .then(file => this.settings.set_string('storage-path', file.get_path()))
-      .catch(e => print(e))
+      .catch(e => console.error(e));
   }
 });
 

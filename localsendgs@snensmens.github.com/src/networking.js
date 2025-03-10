@@ -28,8 +28,6 @@ export async function getLocalIpAddress() {
 
 
 export function createMulticastSocket({group, port}) {
-  print(`creating new multicast socket (group: ${group}, port: ${port})`);
-
   const socket = Gio.Socket.new(
     Gio.SocketFamily.IPV4,
     Gio.SocketType.DATAGRAM,

@@ -132,7 +132,7 @@ export default class LocalSendGSExtension extends Extension {
         }
       }
       catch(error) {
-        print(`setting up LocalSendGS failed: ${error}`);
+        console.error(`setting up LocalSendGS failed: ${error}`);
       }
     });
 
@@ -157,8 +157,6 @@ export default class LocalSendGSExtension extends Extension {
   }
 
   async setup() {
-    print(`setup LocalSendGS`);
-
     await createPrivateKey({
       path: `${this.path}/resources/key.pem`,
       cancellable: null
@@ -173,7 +171,6 @@ export default class LocalSendGSExtension extends Extension {
 
     const ipAddress = await getLocalIpAddress();
     if (ipAddress === null) {
-      print(`no ip address - set toggle back to inactive`);
       this.toggle.checked = false;
       return
     }
@@ -216,7 +213,6 @@ export default class LocalSendGSExtension extends Extension {
 
     // introduce ourself to the multicast group,
     // so that other LocalSend clients can introduce themself in response
-    print(`send introduction to multicast group`);
     this.socket.send_to(
       Gio.InetSocketAddress.new_from_string(
         this.settingsService.getMulticastGroup(),
@@ -228,7 +224,6 @@ export default class LocalSendGSExtension extends Extension {
   }
 
   shutdown() {
-    print(`shutdown LocalSendGS`);
     this.device = null;
 
     this.localSendClient?.destroy();
@@ -251,13 +246,9 @@ export default class LocalSendGSExtension extends Extension {
   }
 
   onMulticastMessage() {
-    print(`new message in multicast group`);
     const [bytes, sender] = this.socket.receive_bytes_from(this.socket.get_available_bytes(), -1, null);
     const origin = sender.get_address().to_string();
     const device = JSON.parse(new TextDecoder().decode(bytes.toArray()));
-
-    print(`discovered new device ${device.alias}`);
-    print(JSON.stringify(device, null, 2))
 
     this.settingsService.addDiscoveredDevice({
       alias: device.alias,
@@ -272,26 +263,21 @@ export default class LocalSendGSExtension extends Extension {
       protocol: device.protocol,
       device: this.device,
     })
-    .then(() => print(`registration successful`))
-    .catch(e => print(`registering failed: ${e}`));
+    .catch(e => console.error(`registering failed: ${e}`));
 
     return GLib.SOURCE_CONTINUE;
   }
 
   onTransferRequest(server, message, alias, fileCount, size) {
-    print(`new transfer request from ${alias} (${fileCount} files, ${size} bytes)`);
-
     this.permissionNotification = this.notificationService.askForPermission({
       alias: alias,
       fileCount: fileCount,
       size: size,
       onAccept: () => {
-        print(`user accepted the request`);
         server.acceptUploadRequest(message);
         this.permissionNotification = null;
       },
       onDismiss: () => {
-        print(`user rejected the request`);
         server.rejectUploadRequest(message);
         this.permissionNotification = null;
       }
@@ -318,7 +304,7 @@ export default class LocalSendGSExtension extends Extension {
           })
           .catch(e => {
             this.progressNotification = null;
-            print(`cancelling failed: ${e}`);
+            console.error(`cancelling the upload failed: ${e}`);
           });
         }
       });
@@ -326,7 +312,6 @@ export default class LocalSendGSExtension extends Extension {
   }
 
   onUploadCanceled(server) {
-    print(`upload canceled`);
     this.permissionNotification?.destroy();
     this.permissionNotification = null;
 
@@ -337,7 +322,6 @@ export default class LocalSendGSExtension extends Extension {
   }
 
   onUploadFinished(server, fileCount) {
-    print(`upload finished`);
     this.progressNotification?.destroy();
     this.progressNotification = null;
 

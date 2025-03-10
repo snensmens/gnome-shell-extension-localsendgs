@@ -24,8 +24,6 @@ export const FileServer = GObject.registerClass({
 },
 class FileServer extends Soup.Server {
   constructor({address, certificate, settingsService}) {
-    print(`creating new FileServer`);
-
     super();
     this._port = settingsService.getFileServerPort();
     this._storagePath = settingsService.getStoragePath();
@@ -129,7 +127,7 @@ class FileServer extends Soup.Server {
         return
       }
 
-      print(`preparing upload failed: ${error}`);
+      console.error(`preparing upload failed: ${error}`);
       message.set_status(Soup.Status.INTERNAL_SERVER_ERROR, null);
       return
     }
