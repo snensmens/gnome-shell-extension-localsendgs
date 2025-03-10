@@ -4,7 +4,7 @@
   "uuid": "localsendgs@snensmens.github.com",
   "url": "https://github.com/snensmens/gnome-shell-extension-localsendgs",
   "shell-version": [
-    "47"
+    "46", "47", "48"
   ],
   "settings-schema": "org.gnome.shell.extensions.localsendgs",
   "gettext-domain": "localsendgs@snensmens.github.com"
