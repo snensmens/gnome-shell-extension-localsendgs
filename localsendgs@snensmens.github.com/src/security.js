@@ -69,7 +69,7 @@ export async function hasOpensslInstalled(cancellable) {
 export async function hasCerttoolInstalled(cancellable) {
   try {
     await runSubprocess({
-      args: ["which", "certtools"],
+      args: ["which", "certtool"],
       cancellable: cancellable,
     });
 
