@@ -287,12 +287,12 @@ export default class LocalSendGSExtension extends Extension {
       size: size,
       onAccept: () => {
         print(`user accepted the request`);
-        server.accept(message);
+        server.acceptUploadRequest(message);
         this.permissionNotification = null;
       },
       onDismiss: () => {
         print(`user rejected the request`);
-        server.reject(message);
+        server.rejectUploadRequest(message);
         this.permissionNotification = null;
       }
     });

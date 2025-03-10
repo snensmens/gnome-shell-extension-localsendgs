@@ -67,13 +67,13 @@ class FileServer extends Soup.Server {
     );
   }
 
-  accept(message) {
+  acceptUploadRequest(message) {
     message.get_response_body().append( new UploadResponse(this.session).toString() );
     message.set_status(Soup.Status.OK, null);
     message.unpause();
   }
 
-  reject(message) {
+  rejectUploadRequest(message) {
     this.session = null;
 
     message.set_status(Soup.Status.FORBIDDEN, null);
