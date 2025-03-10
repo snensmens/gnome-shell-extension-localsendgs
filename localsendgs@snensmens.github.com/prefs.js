@@ -151,12 +151,7 @@ class FavoritesPage extends Adw.PreferencesPage {
           tooltipText: _('Add to favorites'),
           style: 'accent',
           onClicked: () => {
-            this.settingsService.addFavorite({
-              fingerprint: device.fingerprint,
-              alias: device.alias,
-              type: device.type,
-              model: device.model,
-            });
+            this.settingsService.addFavorite(device);
             this.loadDiscoveredDevices();
           }
         }

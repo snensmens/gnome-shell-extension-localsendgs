@@ -68,19 +68,14 @@ export default class SettingsService {
     return favorites.some(fav => fav.fingerprint === fingerprint);
   }
 
-  addFavorite({ fingerprint, alias, type, model }) {
+  addFavorite(device) {
     const favorites = this._settings.get_value('favorites').deepUnpack();
 
-    if (favorites.some(fav => fav.fingerprint === fingerprint)) {
+    if (favorites.some(fav => fav.fingerprint === device.fingerprint)) {
       return
     }
 
-    favorites.push({
-      alias: alias,
-      fingerprint: fingerprint,
-      type: type,
-      model: model
-    });
+    favorites.push(device);
 
     this._settings.set_value('favorites', GLib.Variant.new('aa{ss}', favorites));
   }
@@ -101,19 +96,14 @@ export default class SettingsService {
     return this._settings.get_value('discovered-devices').deepUnpack();
   }
 
-  addDiscoveredDevice({alias, fingerprint, type, model}) {
+  addDiscoveredDevice(device) {
     const devices = this.getDiscoveredDevices();
 
-    if (devices.some(device => device.fingerprint === fingerprint)) {
+    if (devices.some(device => device.fingerprint === device.fingerprint)) {
       return
     }
 
-    devices.push({
-      alias: alias,
-      fingerprint: fingerprint,
-      type: type,
-      model: model
-    });
+    devices.push(device);
 
     this._settings.set_value('discovered-devices', new GLib.Variant('aa{ss}', devices));
   }
